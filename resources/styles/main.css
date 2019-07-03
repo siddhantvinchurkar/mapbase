@@ -45,6 +45,13 @@ main{
 	display:none;
 	padding: 5em;
 }
+#screen_new_map{
+	margin-top: 5em;
+	display: none;
+}
+#add_map_step_2{
+	display: none;
+}
 .dark_image{
 	background: linear-gradient(transparent, #000000), url("../images/earth.png") no-repeat center;
 	height: 480px;

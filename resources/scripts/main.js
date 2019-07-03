@@ -192,8 +192,10 @@ function signIn() {
 		firebase.auth().signOut().then(function () {
 			signedIn = false;
 			document.getElementById('btn_login').innerHTML = '<i class="material-icons left" style = "margin-top: -0.6em !important;">exit_to_app</i> Login';
-			$("#screen_intro").fadeOut(1000);
-			setTimeout(function () { $("#screen_login").fadeIn(1000); }, 1200);
+			$("#screen_intro").fadeOut(500);
+			$("#screen_database").fadeOut(500);
+			$("#screen_new_map").fadeOut(500);
+			setTimeout(function () { $("#screen_login").fadeIn(500); }, 600);
 		}).catch(function (error) {
 			console.log(error);
 		});
@@ -649,12 +651,24 @@ window.onload = function () {
 	}
 	document.getElementById('btn_google').onclick = function () { document.getElementById('btn_login').click(); }
 	document.getElementById('btn_begin').onclick = function () {
-		//introduceUI();
+		// introduceUI();
 		$("#screen_intro").fadeOut(500);
 		setTimeout(function () { $("#screen_database").fadeIn(500); }, 600);
 	}
 	document.getElementById('btn_apply_filters').onclick = function () {
 		filters = true; unsubscribe(); handleRealTimeUpdates();
+	}
+	document.getElementById('btn_add_map').onclick = function () {
+		$("#screen_database").fadeOut(500);
+		setTimeout(function () { $("#screen_new_map").fadeIn(500); }, 600);
+	}
+	document.getElementById('btn_add_map_back').onclick = function () {
+		$("#screen_new_map").fadeOut(500);
+		setTimeout(function () { $("#screen_database").fadeIn(500); }, 600);
+	}
+	document.getElementById('btn_upload_geojson').onclick = function () {
+		// TODO: Choose and upload geojson file
+		$("#add_map_step_2").fadeIn(500);
 	}
 
 	/* Establish input listeners */
