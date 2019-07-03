@@ -1,0 +1,248 @@
+{
+  "ipr_cities": [
+    {
+      "city_name": "Guwahati",
+      "city_code": "GAU",
+      "city_state": "Assam"
+    },
+    {
+      "city_name": "Patna",
+      "city_code": "PAN",
+      "city_state": "Bihar"
+    },
+    {
+      "city_name": "Raipur",
+      "city_code": "",
+      "city_state": "Chhattisgarh"
+    },
+    {
+      "city_name": "Dehli",
+      "city_code": "DEL",
+      "city_state": "Dehli"
+    },
+    {
+      "city_name": "Ahmedabad",
+      "city_code": "AMD",
+      "city_state": "Gujrat"
+    },
+    {
+      "city_name": "Surat",
+      "city_code": "SUR",
+      "city_state": "Gujrat"
+    },
+    {
+      "city_name": "Vadodara",
+      "city_code": "VAD",
+      "city_state": "Gujrat"
+    },
+    {
+      "city_name": "Rajkot",
+      "city_code": "RAK",
+      "city_state": "Gujrat"
+    },
+    {
+      "city_name": "Faridabad",
+      "city_code": "FAD",
+      "city_state": "Haryana"
+    },
+    {
+      "city_name": "Gurgaon",
+      "city_code": "GUG",
+      "city_state": "Haryana"
+    },
+    {
+      "city_name": "Ranchi",
+      "city_code": "RAN",
+      "city_state": "Jharkhand"
+    },
+    
+    {
+      "city_name": "Bangalore",
+      "city_code": "BLR",
+      "city_state": "Karnataka"
+    },
+    {
+      "city_name": "Mysore",
+      "city_code": "MYS",
+      "city_state": "Karnataka"
+    },
+    {
+      "city_name": "Mangalore",
+      "city_code": "MLR",
+      "city_state": "Karnataka"
+    },
+    {
+      "city_name": "Kochi",
+      "city_code": "KOC",
+      "city_state": "Kerala"
+    },
+    {
+      "city_name": "Indore",
+      "city_code": "INR",
+      "city_state": "Madhya Pradesh"
+    },
+    
+    {
+      "city_name": "Ujjain",
+      "city_code": "UJJ",
+      "city_state": "Madhya Pradesh"
+    },
+    {
+      "city_name": "Mumbai",
+      "city_code": "BOM",
+      "city_state": "Maharashtra"
+    },
+    {
+      "city_name": "Pune",
+      "city_code": "PUN",
+      "city_state": "Maharashtra"
+    },
+    {
+      "city_name": "Nagpur",
+      "city_code": "NAP",
+      "city_state": "Maharashtra"
+    },
+    {
+      "city_name": "Nashik",
+      "city_code": "NAS",
+      "city_state": "Maharashtra"
+    },
+    {
+      "city_name": "Bhubaneswar",
+      "city_code": "BBI",
+      "city_state": "Orissa"
+    },
+    {
+      "city_name": "Cuttack & PURI",
+      "city_code": "C&P",
+      "city_state": "Orissa"
+    },
+    {
+      "city_name": "Amritsar",
+      "city_code": "AMR",
+      "city_state": "Punjab"
+    },
+    {
+      "city_name": "Chandigarh",
+      "city_code": "IXC",
+      "city_state": "Punjab"
+    },
+    {
+      "city_name": "Jaipur",
+      "city_code": "JAP",
+      "city_state": "Rajasthan"
+    },
+    {
+      "city_name": "Jodhpur",
+      "city_code": "JOP",
+      "city_state": "Rajasthan"
+    },
+    {
+      "city_name": "Kota",
+      "city_code": "KOT",
+      "city_state": "Rajasthan"
+    },
+    {
+      "city_name": "Bikaner",
+      "city_code": "BIK",
+      "city_state": "Rajasthan"
+    },
+    {
+      "city_name": "Visakhapatnam",
+      "city_code": "VIS",
+      "city_state": "Seemandhra"
+    },
+    {
+      "city_name": "Vijayawada",
+      "city_code": "VIJ",
+      "city_state": "Seemandhra"
+    },
+    {
+      "city_name": "Chennai",
+      "city_code": "MAA",
+      "city_state": "Tamil Nadu"
+    },
+    {
+      "city_name": "Coimbatore",
+      "city_code": "COB",
+      "city_state": "Tamil Nadu"
+    },
+    {
+      "city_name": "Madurai",
+      "city_code": "MAD",
+      "city_state": "Tamil Nadu"
+    },
+    {
+      "city_name": "Hyderabad",
+      "city_code": "HYD",
+      "city_state": "Telangana"
+    },
+    {
+      "city_name": "Lucknow",
+      "city_code": "LUN",
+      "city_state": "Uttar Pradesh"
+    },
+    {
+      "city_name": "Kanpur",
+      "city_code": "KAP",
+      "city_state": "Uttar Pradesh"
+    },
+    {
+      "city_name": "Agra",
+      "city_code": "AGA",
+      "city_state": "Uttar Pradesh"
+    },
+    {
+      "city_name": "Varanasi",
+      "city_code": "VAR",
+      "city_state": "Uttar Pradesh"
+    },
+    {
+      "city_name": "Allahabad",
+      "city_code": "ALH",
+      "city_state": "Uttar Pradesh"
+    },
+    {
+      "city_name": "Aligarh",
+      "city_code": "ALG",
+      "city_state": "Uttar Pradesh"
+    },
+    {
+      "city_name": "Noida",
+      "city_code": "NOD",
+      "city_state": "Uttar Pradesh"
+    },
+    {
+      "city_name": "Jhansi",
+      "city_code": "JHS",
+      "city_state": "Uttar Pradesh"
+    },
+    {
+      "city_name": "Dehradun",
+      "city_code": "DER",
+      "city_state": "Uttarakhand"
+    },{
+      "city_name": "Kolkata",
+      "city_code": "KOK",
+      "city_state": "West Bengal"
+    },{
+      "city_name": "Asansol",
+      "city_code": "ASN",
+      "city_state": "West Bengal"
+    },{
+      "city_name": "Siliguri",
+      "city_code": "SIG",
+      "city_state": "West Bengal"
+    },
+    {
+      "city_name": "GOA",
+      "city_code": "GOA",
+      "city_state": "Goa"
+    },
+    {
+      "city_name": "PONDICHERRY",
+      "city_code": "POC",
+      "city_state": "Tamil Nadu"
+    }
+]
+   
