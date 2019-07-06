@@ -743,14 +743,18 @@ function uploadFile(file, name) {
 	uploadTask.push(storage.child('ipr_locations/' + name).put(file, { contentType: 'application/json' }));
 	uploadTask[globalIndex - 1].on('state_changed',
 		function progress(snapshot) {
-
+			console.log('Uploading ' + name + '...');
 		},
 		function error(error) {
+			console.log('Error uploading ' + name + '...\n\n' + error);
 			document.getElementById('btn_upload_geojson').innerHTML = '<i class="material-icons left">cloud_upload</i>Upload failed!';
+			return false;
 		},
 		function complete() {
 			storage.child('ipr_locations/' + name).getDownloadURL().then(function (downloadURL) {
 				downloadURLList.push(downloadURL);
+				console.log('Uploaded ' + name + '...');
+				return true;
 			});
 		}
 	);
@@ -758,7 +762,7 @@ function uploadFile(file, name) {
 
 /* Upload geojson function */
 function uploadGeoJson(fileList) {
-	return new Promise(function (resolve) {
+	return new Promise(function (resolve, reject) {
 		prepareGeojsonFilesForUpload(fileList).then((data) => {
 			document.getElementById('btn_upload_geojson').innerHTML = '<i class="material-icons left">cloud_upload</i>Uploading geojson files...';
 			globalIndex = 0;
@@ -767,7 +771,15 @@ function uploadGeoJson(fileList) {
 				var datay = data;
 				// Upload files sequentially
 				db.collection('locations').add(data[i]).then(function (doc) {
-					uploadFile(filey[globalIndex], datay[globalIndex].map_number + '.json');
+					if (uploadFile(filey[globalIndex], filey[globalIndex].name)) {
+						// Wait for file to upload
+						setTimeout(function () {
+							// Store metadata on firestore
+						}, ((globalIndex == 0 ? 1 : globalIndex) * 5000));
+					}
+					else {
+						reject(false);
+					}
 					resolve(true);
 				});
 			}
@@ -923,12 +935,12 @@ window.onload = function () {
 		document.getElementById('btn_upload_geojson').innerHTML = '<i class="material-icons left">cloud_upload</i>Preparing geojson files...';
 		current_files = document.getElementById('geojson_file').files;
 		if (current_files.length > 0) uploadGeoJson(current_files).then(function (status) {
-			if (status) {
-				document.getElementById('screen_new_map_number').innerHTML = current_files.length;
-				$("#add_map_step_2").fadeIn(500);
-				document.getElementById('btn_upload_geojson').classList.remove('disabled');
-				document.getElementById('btn_upload_geojson').innerHTML = '<i class="material-icons left">cloud_upload</i>Upload geojson files';
-			}
+			document.getElementById('screen_new_map_number').innerHTML = current_files.length;
+			$("#add_map_step_2").fadeIn(500);
+			document.getElementById('btn_upload_geojson').classList.remove('disabled');
+			document.getElementById('btn_upload_geojson').innerHTML = '<i class="material-icons left">cloud_upload</i>Upload geojson files';
+		}, function (status) {
+			document.getElementById('btn_upload_geojson').innerHTML = '<i class="material-icons left">cloud_upload</i>Upload failed! You\'re a failure!';
 		});
 	}
 
