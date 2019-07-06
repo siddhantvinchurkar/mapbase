@@ -13,6 +13,14 @@ var filters = false;
 var autoCompleteList = {};
 var map = null;
 var link_data = null;
+var storage = null;
+var current_files = [];
+var file_string = [];
+var uploadTask = [];
+var fileIndex = 0;
+var globalIndex = 0;
+var downloadURLList = [];
+var current_csv = '#,Map Number,Map Name,Location,Circuit Distance,Status,Date Created';
 var month = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 var week = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 var os = [
@@ -208,6 +216,24 @@ function introduceUI() {
 
 }
 
+/* Get date string from timestamp */
+function generateDateString(date) {
+	date = date.toDate();
+	return month[date.getMonth()] + ' ' + date.getDate() + ', ' + date.getFullYear();
+}
+
+
+/* Get time string from timestamp */
+function generateTimeString(date) {
+	date = date.toDate();
+	var hours = date.getHours();
+	var minutes = date.getMinutes();
+	if (hours < 10) hours = '0' + hours;
+	if (minutes < 10) minutes = '0' + minutes;
+	return hours + ':' + minutes + ':00';
+}
+
+
 /* Function to read a link */
 function readLink(link) {
 	var rawFile = new XMLHttpRequest();
@@ -332,7 +358,9 @@ function handleRealTimeUpdates() {
 				var sno = 0;
 				var approved_count = 0;
 				var pending_count = 0;
+				current_csv = '#,Map Number,Map Name,Location,Circuit Distance,Status,Date Created';
 				querySnapshot.forEach(doc => {
+					current_csv += '\n"' + sno + '","' + doc.data().map_number + '","' + doc.data().map_name + '","' + doc.data().location + '","' + doc.data().circuit_distance + ' Kilometers","' + doc.data().status + '","' + generateDateString(doc.data().timestamp) + ' at ' + generateTimeString(doc.data().timestamp) + '"';
 					if (doc.data().status) approved_count++; else pending_count++;
 					sno++;
 					if (filter_status && document.getElementById('filter_status_select').options[document.getElementById('filter_status_select').options.selectedIndex].value === 'approved') {
@@ -362,7 +390,9 @@ function handleRealTimeUpdates() {
 				var sno = 0;
 				var approved_count = 0;
 				var pending_count = 0;
+				current_csv = '#,Map Number,Map Name,Location,Circuit Distance,Status,Date Created';
 				querySnapshot.forEach(doc => {
+					current_csv += '\n"' + sno + '","' + doc.data().map_number + '","' + doc.data().map_name + '","' + doc.data().location + '","' + doc.data().circuit_distance + ' Kilometers","' + doc.data().status + '","' + generateDateString(doc.data().timestamp) + ' at ' + generateTimeString(doc.data().timestamp) + '"';
 					if (doc.data().status) approved_count++; else pending_count++;
 					sno++;
 					if (filter_status && document.getElementById('filter_status_select').options[document.getElementById('filter_status_select').options.selectedIndex].value === 'approved') {
@@ -392,7 +422,9 @@ function handleRealTimeUpdates() {
 				var sno = 0;
 				var approved_count = 0;
 				var pending_count = 0;
+				current_csv = '#,Map Number,Map Name,Location,Circuit Distance,Status,Date Created';
 				querySnapshot.forEach(doc => {
+					current_csv += '\n"' + sno + '","' + doc.data().map_number + '","' + doc.data().map_name + '","' + doc.data().location + '","' + doc.data().circuit_distance + ' Kilometers","' + doc.data().status + '","' + generateDateString(doc.data().timestamp) + ' at ' + generateTimeString(doc.data().timestamp) + '"';
 					if (doc.data().status) approved_count++; else pending_count++;
 					sno++;
 					if (filter_status && document.getElementById('filter_status_select').options[document.getElementById('filter_status_select').options.selectedIndex].value === 'approved') {
@@ -422,7 +454,9 @@ function handleRealTimeUpdates() {
 				var sno = 0;
 				var approved_count = 0;
 				var pending_count = 0;
+				current_csv = '#,Map Number,Map Name,Location,Circuit Distance,Status,Date Created';
 				querySnapshot.forEach(doc => {
+					current_csv += '\n"' + sno + '","' + doc.data().map_number + '","' + doc.data().map_name + '","' + doc.data().location + '","' + doc.data().circuit_distance + ' Kilometers","' + doc.data().status + '","' + generateDateString(doc.data().timestamp) + ' at ' + generateTimeString(doc.data().timestamp) + '"';
 					if (doc.data().status) approved_count++; else pending_count++;
 					sno++;
 					if (filter_status && document.getElementById('filter_status_select').options[document.getElementById('filter_status_select').options.selectedIndex].value === 'approved') {
@@ -452,7 +486,9 @@ function handleRealTimeUpdates() {
 				var sno = 0;
 				var approved_count = 0;
 				var pending_count = 0;
+				current_csv = '#,Map Number,Map Name,Location,Circuit Distance,Status,Date Created';
 				querySnapshot.forEach(doc => {
+					current_csv += '\n"' + sno + '","' + doc.data().map_number + '","' + doc.data().map_name + '","' + doc.data().location + '","' + doc.data().circuit_distance + ' Kilometers","' + doc.data().status + '","' + generateDateString(doc.data().timestamp) + ' at ' + generateTimeString(doc.data().timestamp) + '"';
 					if (doc.data().status) approved_count++; else pending_count++;
 					sno++;
 					if (filter_status && document.getElementById('filter_status_select').options[document.getElementById('filter_status_select').options.selectedIndex].value === 'approved') {
@@ -482,7 +518,9 @@ function handleRealTimeUpdates() {
 				var sno = 0;
 				var approved_count = 0;
 				var pending_count = 0;
+				current_csv = '#,Map Number,Map Name,Location,Circuit Distance,Status,Date Created';
 				querySnapshot.forEach(doc => {
+					current_csv += '\n"' + sno + '","' + doc.data().map_number + '","' + doc.data().map_name + '","' + doc.data().location + '","' + doc.data().circuit_distance + ' Kilometers","' + doc.data().status + '","' + generateDateString(doc.data().timestamp) + ' at ' + generateTimeString(doc.data().timestamp) + '"';
 					if (doc.data().status) approved_count++; else pending_count++;
 					sno++;
 					if (filter_status && document.getElementById('filter_status_select').options[document.getElementById('filter_status_select').options.selectedIndex].value === 'approved') {
@@ -512,7 +550,9 @@ function handleRealTimeUpdates() {
 				var sno = 0;
 				var approved_count = 0;
 				var pending_count = 0;
+				current_csv = '#,Map Number,Map Name,Location,Circuit Distance,Status,Date Created';
 				querySnapshot.forEach(doc => {
+					current_csv += '\n"' + sno + '","' + doc.data().map_number + '","' + doc.data().map_name + '","' + doc.data().location + '","' + doc.data().circuit_distance + ' Kilometers","' + doc.data().status + '","' + generateDateString(doc.data().timestamp) + ' at ' + generateTimeString(doc.data().timestamp) + '"';
 					if (doc.data().status) approved_count++; else pending_count++;
 					sno++;
 					if (filter_status && document.getElementById('filter_status_select').options[document.getElementById('filter_status_select').options.selectedIndex].value === 'approved') {
@@ -542,7 +582,9 @@ function handleRealTimeUpdates() {
 				var sno = 0;
 				var approved_count = 0;
 				var pending_count = 0;
+				current_csv = '#,Map Number,Map Name,Location,Circuit Distance,Status,Date Created';
 				querySnapshot.forEach(doc => {
+					current_csv += '\n"' + sno + '","' + doc.data().map_number + '","' + doc.data().map_name + '","' + doc.data().location + '","' + doc.data().circuit_distance + ' Kilometers","' + doc.data().status + '","' + generateDateString(doc.data().timestamp) + ' at ' + generateTimeString(doc.data().timestamp) + '"';
 					if (doc.data().status) approved_count++; else pending_count++;
 					sno++;
 					if (filter_status && document.getElementById('filter_status_select').options[document.getElementById('filter_status_select').options.selectedIndex].value === 'approved') {
@@ -581,7 +623,9 @@ function handleRealTimeUpdates() {
 			var sno = 0;
 			var approved_count = 0;
 			var pending_count = 0;
+			current_csv = '#,Map Number,Map Name,Location,Circuit Distance,Status,Date Created';
 			querySnapshot.forEach(doc => {
+				current_csv += '\n"' + sno + '","' + doc.data().map_number + '","' + doc.data().map_name + '","' + doc.data().location + '","' + doc.data().circuit_distance + ' Kilometers","' + doc.data().status + '","' + generateDateString(doc.data().timestamp) + ' at ' + generateTimeString(doc.data().timestamp) + '"';
 				if (doc.data().status) approved_count++; else pending_count++;
 				sno++;
 				if (filter_status && document.getElementById('filter_status_select').options[document.getElementById('filter_status_select').options.selectedIndex].value === 'approved') {
@@ -607,6 +651,155 @@ function handleRealTimeUpdates() {
 	}
 }
 
+/* Prepare geojson function */
+function prepareGeojsonFilesForUpload(fileList) {
+	return new Promise(function (resolve) {
+		var firestoreObjectList = [];
+		var map_serial = 0;
+		var map_code = null;
+		var map_number = [];
+		var map_name = [];
+		var map_city = null;
+		var map_state = null;
+		var map_location = [];
+		var map_status = false;
+		var map_distance = [];
+		var map_timestamp = new Date();
+		fileIndex = 1;
+		for (i = 0; i < fileList.length; i++) {
+			// 1. Read geojson file
+			var fileReader = new FileReader();
+			fileReader.onload = function (data) {
+				data = JSON.parse(data.target.result);
+				for (j = 0; j < data.features.length; j++) {
+					// 2. Fetch location details
+					if (data.features[j].geometry.type == "Point") {
+						$.getJSON('https://api.mapbox.com/geocoding/v5/mapbox.places/' + data.features[j].geometry.coordinates[0] + ',' + data.features[j].geometry.coordinates[1] + '.json?access_token=pk.eyJ1Ijoic2lkZGhhbnR2aW5jaHVya2FyIiwiYSI6ImNqbGprZTIxdTBic2wzcG5kbnFnZDZnOTAifQ.ztgcGv9lZMeV61VvGKMHIw', function (data1) {
+							for (k = 0; k < data1.features[0].context.length; k++) {
+								if (data1.features[0].context[k].id.includes('place')) map_city = data1.features[0].context[k].text;
+								if (data1.features[0].context[k].id.includes('region')) map_state = data1.features[0].context[k].text;
+								if (map_city !== null && map_state !== null) map_location.push(map_city + ', ' + map_state);
+								if (map_city !== null && map_state !== null) map_name.push(data1.features[0].text);
+								if (map_city !== null && map_state !== null) {
+									for (n = 0; n < data.features.length; n++) {
+										if (data.features[n].geometry.type == 'LineString') {
+											map_distance.push(parseFloat(turf.length(turf.lineString(data.features[n].geometry.coordinates), { units: 'kilometers' }).toFixed(2), 10));
+											break;
+										}
+									}
+
+								}
+								if (map_city !== null && map_state !== null) break;
+							}
+							// 3. Determine location code
+							$.getJSON('resources/scripts/ipr_cities.json', function (data2) {
+								for (l = 0; l < data2.ipr_cities.length; l++) {
+									if (data2.ipr_cities[l].city_name == map_city) {
+										map_code = data2.ipr_cities[l].city_code;
+										break;
+									}
+								}
+								// 4. Fetch map serial number
+								db.collection('locations').where('location', '==', map_location[fileIndex]).orderBy('timestamp', 'desc').get().then((querySnapshot) => {
+									map_serial = 1;
+									querySnapshot.forEach((doc) => {
+										map_serial++;
+									});
+									// 5. Generate map number
+									map_number.push('IPR-MAP-' + map_code + '-' + (map_serial + fileIndex));
+									// 6. Create List of firestore database compatible objects
+									if (fileIndex == fileList.length) {
+										for (m = 0; m < fileList.length; m++) {
+											firestoreObjectList.push({
+												map_number: fileList[m].name.substring(0, fileList[m].name.length - 5),
+												map_name: map_name[m],
+												location: map_location[m],
+												circuit_distance: map_distance[m],
+												status: false,
+												timestamp: new Date(),
+												geojson_link: "https://loremimpsumdolorsitamet/",
+												approved_by: "a human"
+											});
+										}
+										resolve(firestoreObjectList);
+									}
+									fileIndex++;
+								});
+							});
+
+						});
+						break;
+					}
+				}
+			}
+			fileReader.readAsText(fileList[i]);
+		}
+	});
+}
+
+/* Upload file function */
+function uploadFile(file, name) {
+	globalIndex++;
+	uploadTask.push(storage.child('ipr_locations/' + name).put(file, { contentType: 'application/json' }));
+	uploadTask[globalIndex - 1].on('state_changed',
+		function progress(snapshot) {
+
+		},
+		function error(error) {
+			document.getElementById('btn_upload_geojson').innerHTML = '<i class="material-icons left">cloud_upload</i>Upload failed!';
+		},
+		function complete() {
+			storage.child('ipr_locations/' + name).getDownloadURL().then(function (downloadURL) {
+				downloadURLList.push(downloadURL);
+			});
+		}
+	);
+}
+
+/* Upload geojson function */
+function uploadGeoJson(fileList) {
+	return new Promise(function (resolve) {
+		prepareGeojsonFilesForUpload(fileList).then((data) => {
+			document.getElementById('btn_upload_geojson').innerHTML = '<i class="material-icons left">cloud_upload</i>Uploading geojson files...';
+			globalIndex = 0;
+			for (i = 0; i < fileList.length; i++) {
+				var filey = fileList;
+				var datay = data;
+				// Upload files sequentially
+				db.collection('locations').add(data[i]).then(function (doc) {
+					uploadFile(filey[globalIndex], datay[globalIndex].map_number + '.json');
+					resolve(true);
+				});
+			}
+		});
+	});
+}
+
+/* Escape regular expression function */
+function escapeRegExp(str) {
+	return str.replace(/([.*+?^=!:${}()|\[\]\/\\])/g, "\\$1");
+}
+
+/* String replaceAll() function */
+function replaceAll(str, find, replace) {
+	return str.replace(new RegExp(escapeRegExp(find), 'g'), replace);
+}
+
+function downloadCsv() {
+	current_csv = replaceAll(current_csv, 'true', 'Approved');
+	current_csv = replaceAll(current_csv, 'false', 'Pending');
+	var blob = new Blob([current_csv], { type: 'text/csv' });
+	var a = document.createElement('a');
+	a.download = new Date() + '.csv';
+	a.href = URL.createObjectURL(blob);
+	a.dataset.downloadurl = ['text/csv', a.download, a.href].join(':');
+	a.style.display = "none";
+	document.body.appendChild(a);
+	a.click();
+	document.body.removeChild(a);
+	setTimeout(function () { URL.revokeObjectURL(a.href); }, 1500);
+}
+
 window.onload = function () {
 
 	/* Configure AJAX requests */
@@ -615,6 +808,9 @@ window.onload = function () {
 			options.url = 'https://cors-anywhere.herokuapp.com/' + options.url;
 		}
 	});
+
+	// Register a Service Worker
+	if ('serviceWorker' in navigator) { navigator.serviceWorker.register('sw.js'); }
 
 	/* Initialize Firebase */
 	firebase.initializeApp({
@@ -632,6 +828,9 @@ window.onload = function () {
 
 	/* Initialize Firestore */
 	db = firebase.firestore();
+
+	/* Initialize Storage */
+	storage = firebase.storage().ref();
 
 	/* Establish autocomplete listeners */
 	db.collection('locations').orderBy('timestamp', 'desc').onSnapshot(querySnapshot => {
@@ -663,12 +862,18 @@ window.onload = function () {
 		setTimeout(function () { $("#screen_new_map").fadeIn(500); }, 600);
 	}
 	document.getElementById('btn_add_map_back').onclick = function () {
+		document.getElementById('btn_upload_geojson').classList.remove('disabled');
+		document.getElementById('btn_upload_geojson').innerHTML = '<i class="material-icons left">cloud_upload</i>Upload geojson';
+		$("#add_map_step_2").fadeOut(250);
 		$("#screen_new_map").fadeOut(500);
 		setTimeout(function () { $("#screen_database").fadeIn(500); }, 600);
 	}
 	document.getElementById('btn_upload_geojson').onclick = function () {
-		// TODO: Choose and upload geojson file
-		$("#add_map_step_2").fadeIn(500);
+		// Choose and upload geojson file
+		document.getElementById('geojson_file').click();
+	}
+	document.getElementById('btn_print').onclick = function () {
+		downloadCsv();
 	}
 
 	/* Establish input listeners */
@@ -712,6 +917,19 @@ window.onload = function () {
 		document.getElementById('filter_circuit_distance').checked = !document.getElementById('filter_timestamp').checked;
 		filter_timestamp = document.getElementById('filter_timestamp').checked;
 		filter_circuit_distance = document.getElementById('filter_circuit_distance').checked;
+	}
+	document.getElementById('geojson_file').onchange = function () {
+		document.getElementById('btn_upload_geojson').classList.add('disabled');
+		document.getElementById('btn_upload_geojson').innerHTML = '<i class="material-icons left">cloud_upload</i>Preparing geojson files...';
+		current_files = document.getElementById('geojson_file').files;
+		if (current_files.length > 0) uploadGeoJson(current_files).then(function (status) {
+			if (status) {
+				document.getElementById('screen_new_map_number').innerHTML = current_files.length;
+				$("#add_map_step_2").fadeIn(500);
+				document.getElementById('btn_upload_geojson').classList.remove('disabled');
+				document.getElementById('btn_upload_geojson').innerHTML = '<i class="material-icons left">cloud_upload</i>Upload geojson files';
+			}
+		});
 	}
 
 	/* Establish key listeners */

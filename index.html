@@ -75,7 +75,7 @@
                 <span id="username"></span>!</span>
             </div>
             <div class="card-content">
-              <p style="font-size: 1.2em;">Looks like you're new here. Click the button below to begin.</p>
+              <p style="font-size: 1.2em;">Welcome to Mapbase! Click the button below to begin.</p>
             </div>
             <div class="card-action">
               <a id="btn_begin" class="waves-effect light-green darken-2 waves-light z-depth-2 btn-large pulse"><i
@@ -196,20 +196,9 @@
                 </thead>
                 <tbody id="screen_database_rows"></tbody>
               </table>
-              <div class="right" style="margin-right: 1em; margin-top: -1em;">
-                <a id="btn_previous_page" class="waves-effect light-green darken-2 waves-light z-depth-2 btn"><i
-                    class="material-icons left">keyboard_arrow_left</i>Previous Page</a>
-                &emsp;&emsp;
-                <a id="btn_next_page" class="waves-effect light-green darken-2 waves-light z-depth-2 btn"><i
-                    class="material-icons right">keyboard_arrow_right</i>Next Page</a>
-              </div>
               <div class="left" style="margin-left: 1em; margin-top: -1em;">
                 <a id="btn_print" class="waves-effect light-green darken-2 waves-light z-depth-2 btn"><i
                     class="material-icons left">print</i>Print this</a>
-              </div>
-              <div class="center" style="margin-left: 1em; margin-right: 1em; margin-top: -1em;">
-                <h6><b>You are viewing page <span id="page_number">213</span> of <span id="num_pages">225</span></b>
-                </h6>
               </div>
             </div>
           </div>
@@ -218,14 +207,16 @@
 
       <div id="screen_new_map" class="row">
         <div class="col s12 m12 l6 xl6 offset-l3 offset-xl3 white-text">
-          <h1>Add new map.</h1>
-          <h5 style="margin-top:1em;">At the click of a button you will have added a new location to Mapbase.</h5>
+          <h1>Add new maps.</h1>
+          <h5 style="margin-top:1em;">All you need is a geojson file.<br />You can upload multiple geojson files in
+            one go.</h5>
           <a style="margin-top:1em;" id="btn_upload_geojson"
             class="waves-effect yellow darken-2 black-text waves-light z-depth-2 btn-large"><i
-              class="material-icons left">cloud_upload</i>Upload geojson</a>
+              class="material-icons left">cloud_upload</i>Upload geojson files</a>
+          <input id="geojson_file" type="file" style="display:none;" multiple></input>
           <div id="add_map_step_2">
-            <p style="margin-top:3em;">Excellent. Here's your map number.</p>
-            <h3 style="margin-top:0.6em; border: 5px solid #FFFFFF; padding:0.3em; max-width: 10em;">IPR-MAP-BLR-30</h3>
+            <h3 style="margin-top:0.6em; border: 5px solid #FFFFFF; padding:0.3em; max-width: auto;">Excellent! You just
+              added <span id="screen_new_map_number">30</span> map(s).</h3>
           </div>
           <a style="margin-top:1em;" id="btn_add_map_back"
             class="waves-effect light-green darken-2 white-text waves-light z-depth-2 btn-large"><i
@@ -278,6 +269,9 @@
 
     <!-- Mapbox Script -->
     <script type="text/javascript" src="https://api.mapbox.com/mapbox-gl-js/v1.0.0/mapbox-gl.js" defer></script>
+
+    <!-- Turfjs Script -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@turf/turf@5/turf.min.js" defer></script>
 
     <!-- Google Analytics Scripts -->
     <!--<script async src="https://www.googletagmanager.com/gtag/js?id=UA-142417456-1"></script>

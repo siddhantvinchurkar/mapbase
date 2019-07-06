@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "india-plog-run",
+  "private_key_id": "34daa04c1d23f11d9b39114a689581486ae2db2b",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQC2QNXSI7SLfCi2\nWc3Q5V4J5XVyjh56fzNenhxHHtITYDWkGx5B9e3IIycR7lADstVQepTkxekQOe18\nz3Dho9nPOfIjgHr+pU75yxb4h3xs7w+P91Unr1PGpZkzZVASpdKZ3PJ90ZYxwM7T\ngXiig/Eg4LeJXsFL/05PpQejao9lKc1UJEKAdudDsiDARjDBKfEeNNyt9m7ktzkQ\nBEidtW++y++0o20JDnyIAE2jaggJeL+aQsTkzrXCp1kjsJ83aGkTVb8R+pQz8sKd\nr65J0DnHA1AjENc7rGD6ickp2F+pP4V53DsjL+1UlT1/nYfG80w9fZfiPuy9eMJ4\nAE+7oybVAgMBAAECggEAHNq4n5D0ls187/CEM9RPO6I0TS3aqHU2ulOuUW+RPe0S\nVl15aw2sbEPDKJps2PEOxwjpRYEJ7FOSLxuemQgPxg28BsqNbn8t45a3l83HhsL1\n2UqvajLewMlbWcuVTlEqPcmWgLyrxUvBKF5MAvArFGlPgDRcG76bdOOWs9TSnWbT\noYRG68f533uB6IOnnhS9Ao39pMyZ3OcIsKrjKhmqtn1U4Yy/8QezSIMdty6O65fv\n7fydH6FoPswokMvuJbXDQrRUNv+E4vKXHjapQRZATCj+RdJtMa5bXxUv/nxKFuNL\nfS70XGPbCiFNzYfWPVSerIzhsX5SPF3pCMSdEu4e3wKBgQDZDzFMChqcVHesq+6D\n8+GGkuRpgdJumojTDmDNfo3q2szcp+0mMXbu0ZF168431E4PVA1HpSD7n7GVgEN5\nfUqjIuwaoji8vXt4hpWKRpeEmMulEgSvs2BnZvd95n78e8+siKXqPSBYayvftrBo\n5DhpN3mZPWiBZmVJ7oztZW5hYwKBgQDW8x21svrU6NILmSNBK2ii8nAe4ytM3ZY6\nKYDxeyvbnpyLAdlDSmUPtC2Ld5FmHpYlWi8+jKHPIt82becyS1eWEhv5gAClEMDW\nUHJroq5f8U5A7uhpVxHAB2EvZz/LvHBPn2YaE1vWrFJaO2I2/ar6Fpo+25Pnevq/\nQs8gE7uoZwKBgAR1PWv0YSuIyJRxS4rGPYGIDszj77B52AmNqAtQaBXEvKRjholc\nRrcM8tHbL/cRkzDZZxRrncvNMdaCNeCO5DOJihPZ9RRbR+fny7Z1ULNWeAhB4HrD\nUl2NTdP2IfGJkXBXtiCjdMCcIuCLXgApf8cZbpPpIPZXZgkorxhJFwVFAoGBAIdD\nXCnQJGpAzJUB3B6Ri3om6Al32PK46mVVYtATO4krqcUL98WRlkEomBSQvI2vp7p/\nowVQiC6J+j8NMBUFNmu4n6QFOeKlxUPYQfib2fGEL0NLVDOd2AyoWC71YT77KQ3h\n9+Vm0z8nF3eysN58CNDx0kTF9rAPQqWDDEZaRJf3AoGAaFhuHUkDN2uHyRa1bj4P\nDTj+uYSrGV9/2kLqoBvqDUgVrl1Q7nCa0h+oHqNG1coEwSXZALm5kp3lBiYlzai+\nNXGm0y1r58U0oQXByR/F8025VQlvyx4z4WitcJCzlKq9NzZKFJL/q2bxwoZjv7W8\ncaiP2GJSnnOJKOw75k4cW7o=\n-----END PRIVATE KEY-----\n",
+  "client_email": "google-cloud-storage@india-plog-run.iam.gserviceaccount.com",
+  "client_id": "111607299943326588424",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/google-cloud-storage%40india-plog-run.iam.gserviceaccount.com"
+}

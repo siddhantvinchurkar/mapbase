@@ -6,13 +6,18 @@
       "city_state": "Assam"
     },
     {
+      "city_name": "Gauhati",
+      "city_code": "GAU",
+      "city_state": "Assam"
+    },
+    {
       "city_name": "Patna",
       "city_code": "PAN",
       "city_state": "Bihar"
     },
     {
       "city_name": "Raipur",
-      "city_code": "",
+      "city_code": "RAP",
       "city_state": "Chhattisgarh"
     },
     {
@@ -51,13 +56,22 @@
       "city_state": "Haryana"
     },
     {
+      "city_name": "Gurugram",
+      "city_code": "GUG",
+      "city_state": "Haryana"
+    },
+    {
       "city_name": "Ranchi",
       "city_code": "RAN",
       "city_state": "Jharkhand"
     },
-    
     {
       "city_name": "Bangalore",
+      "city_code": "BLR",
+      "city_state": "Karnataka"
+    },
+    {
+      "city_name": "Bengaluru",
       "city_code": "BLR",
       "city_state": "Karnataka"
     },
@@ -67,7 +81,17 @@
       "city_state": "Karnataka"
     },
     {
+      "city_name": "Mysuru",
+      "city_code": "MYS",
+      "city_state": "Karnataka"
+    },
+    {
       "city_name": "Mangalore",
+      "city_code": "MLR",
+      "city_state": "Karnataka"
+    },
+    {
+      "city_name": "Mangaluru",
       "city_code": "MLR",
       "city_state": "Karnataka"
     },
@@ -81,7 +105,11 @@
       "city_code": "INR",
       "city_state": "Madhya Pradesh"
     },
-    
+    {
+      "city_name": "Indur",
+      "city_code": "INR",
+      "city_state": "Madhya Pradesh"
+    },
     {
       "city_name": "Ujjain",
       "city_code": "UJJ",
@@ -89,6 +117,11 @@
     },
     {
       "city_name": "Mumbai",
+      "city_code": "BOM",
+      "city_state": "Maharashtra"
+    },
+    {
+      "city_name": "Bombay",
       "city_code": "BOM",
       "city_state": "Maharashtra"
     },
@@ -143,6 +176,11 @@
       "city_state": "Rajasthan"
     },
     {
+      "city_name": "Kotah",
+      "city_code": "KOT",
+      "city_state": "Rajasthan"
+    },
+    {
       "city_name": "Bikaner",
       "city_code": "BIK",
       "city_state": "Rajasthan"
@@ -153,12 +191,22 @@
       "city_state": "Seemandhra"
     },
     {
+      "city_name": "Vizag",
+      "city_code": "VIS",
+      "city_state": "Seemandhra"
+    },
+    {
       "city_name": "Vijayawada",
       "city_code": "VIJ",
       "city_state": "Seemandhra"
     },
     {
       "city_name": "Chennai",
+      "city_code": "MAA",
+      "city_state": "Tamil Nadu"
+    },
+    {
+      "city_name": "Madras",
       "city_code": "MAA",
       "city_state": "Tamil Nadu"
     },
@@ -203,6 +251,11 @@
       "city_state": "Uttar Pradesh"
     },
     {
+      "city_name": "prayagraj",
+      "city_code": "ALH",
+      "city_state": "Uttar Pradesh"
+    },
+    {
       "city_name": "Aligarh",
       "city_code": "ALG",
       "city_state": "Uttar Pradesh"
@@ -221,15 +274,23 @@
       "city_name": "Dehradun",
       "city_code": "DER",
       "city_state": "Uttarakhand"
-    },{
+    },
+    {
       "city_name": "Kolkata",
       "city_code": "KOK",
       "city_state": "West Bengal"
-    },{
+    },
+    {
+      "city_name": "Calicut",
+      "city_code": "KOK",
+      "city_state": "West Bengal"
+    },
+    {
       "city_name": "Asansol",
       "city_code": "ASN",
       "city_state": "West Bengal"
-    },{
+    },
+    {
       "city_name": "Siliguri",
       "city_code": "SIG",
       "city_state": "West Bengal"
@@ -243,6 +304,11 @@
       "city_name": "PONDICHERRY",
       "city_code": "POC",
       "city_state": "Tamil Nadu"
+    },
+    {
+      "city_name": "New Town",
+      "city_code": "POC",
+      "city_state": "Tamil Nadu"
     }
-]
-   
+  ]
+}
