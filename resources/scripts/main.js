@@ -20,6 +20,7 @@ var uploadTask = [];
 var fileIndex = 0;
 var globalIndex = 0;
 var downloadURLList = [];
+var lmt = 25;
 var current_csv = '#,Map Number,Map Name,Location,Circuit Distance,Status,Date Created';
 var month = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 var week = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
@@ -360,15 +361,25 @@ function handleRealTimeUpdates() {
 			sortBy = document.getElementById('filter_timestamp_select').options[document.getElementById('filter_timestamp_select').options.selectedIndex].value;
 		}
 		if (filter_map_number === '' && filter_map_name != '' && filter_location != '') {
-			unsubscribe = db.collection('locations').where('map_name', '==', filter_map_name).where('location', '==', filter_location).orderBy(orderBy, sortBy).limit(25).onSnapshot(querySnapshot => {
+			unsubscribe = db.collection('locations').where('map_name', '==', filter_map_name).where('location', '==', filter_location).orderBy(orderBy, sortBy).limit(lmt).onSnapshot(querySnapshot => {
 				cleanUpMapEntryTable();
 				var sno = 0;
+				/*
+
+				// This code has been deprecated in favour of a better method.
 				var approved_count = 0;
 				var pending_count = 0;
+
+				*/
 				current_csv = '#,Map Number,Map Name,Location,Circuit Distance,Status,Date Created';
 				querySnapshot.forEach(doc => {
 					current_csv += '\n"' + sno + '","' + doc.data().map_number + '","' + doc.data().map_name + '","' + doc.data().location + '","' + doc.data().circuit_distance + ' Kilometers","' + doc.data().status + '","' + generateDateString(doc.data().timestamp) + ' at ' + generateTimeString(doc.data().timestamp) + '"';
+					/*
+
+					// This code has been deprecated in favour of a better method.
 					if (doc.data().status) approved_count++; else pending_count++;
+	
+					*/
 					sno++;
 					if (filter_status && document.getElementById('filter_status_select').options[document.getElementById('filter_status_select').options.selectedIndex].value === 'approved') {
 						if (doc.data().status) {
@@ -397,15 +408,25 @@ function handleRealTimeUpdates() {
 			});
 		}
 		else if (filter_map_name === '' && filter_map_number != '' && filter_location != '') {
-			unsubscribe = db.collection('locations').where('map_number', '==', filter_map_number).where('location', '==', filter_location).orderBy(orderBy, sortBy).limit(25).onSnapshot(querySnapshot => {
+			unsubscribe = db.collection('locations').where('map_number', '==', filter_map_number).where('location', '==', filter_location).orderBy(orderBy, sortBy).limit(lmt).onSnapshot(querySnapshot => {
 				cleanUpMapEntryTable();
 				var sno = 0;
+				/*
+
+				// This code has been deprecated in favour of a better method.
 				var approved_count = 0;
 				var pending_count = 0;
+	
+				*/
 				current_csv = '#,Map Number,Map Name,Location,Circuit Distance,Status,Date Created';
 				querySnapshot.forEach(doc => {
 					current_csv += '\n"' + sno + '","' + doc.data().map_number + '","' + doc.data().map_name + '","' + doc.data().location + '","' + doc.data().circuit_distance + ' Kilometers","' + doc.data().status + '","' + generateDateString(doc.data().timestamp) + ' at ' + generateTimeString(doc.data().timestamp) + '"';
+					/*
+
+					// This code has been deprecated in favour of a better method.
 					if (doc.data().status) approved_count++; else pending_count++;
+	
+					*/
 					sno++;
 					if (filter_status && document.getElementById('filter_status_select').options[document.getElementById('filter_status_select').options.selectedIndex].value === 'approved') {
 						if (doc.data().status) {
@@ -434,15 +455,25 @@ function handleRealTimeUpdates() {
 			});
 		}
 		else if (filter_location === '' && filter_map_number != '' && filter_map_name != '') {
-			unsubscribe = db.collection('locations').where('map_number', '==', filter_map_number).where('map_name', '==', filter_map_name).orderBy(orderBy, sortBy).limit(25).onSnapshot(querySnapshot => {
+			unsubscribe = db.collection('locations').where('map_number', '==', filter_map_number).where('map_name', '==', filter_map_name).orderBy(orderBy, sortBy).limit(lmt).onSnapshot(querySnapshot => {
 				cleanUpMapEntryTable();
 				var sno = 0;
+				/*
+
+				// This code has been deprecated in favour of a better method.
 				var approved_count = 0;
 				var pending_count = 0;
+	
+				*/
 				current_csv = '#,Map Number,Map Name,Location,Circuit Distance,Status,Date Created';
 				querySnapshot.forEach(doc => {
 					current_csv += '\n"' + sno + '","' + doc.data().map_number + '","' + doc.data().map_name + '","' + doc.data().location + '","' + doc.data().circuit_distance + ' Kilometers","' + doc.data().status + '","' + generateDateString(doc.data().timestamp) + ' at ' + generateTimeString(doc.data().timestamp) + '"';
+					/*
+
+					// This code has been deprecated in favour of a better method.
 					if (doc.data().status) approved_count++; else pending_count++;
+	
+					*/
 					sno++;
 					if (filter_status && document.getElementById('filter_status_select').options[document.getElementById('filter_status_select').options.selectedIndex].value === 'approved') {
 						if (doc.data().status) {
@@ -471,15 +502,25 @@ function handleRealTimeUpdates() {
 			});
 		}
 		else if (filter_map_number === '' && filter_map_name === '' && filter_location != '') {
-			unsubscribe = db.collection('locations').where('location', '==', filter_location).orderBy(orderBy, sortBy).limit(25).onSnapshot(querySnapshot => {
+			unsubscribe = db.collection('locations').where('location', '==', filter_location).orderBy(orderBy, sortBy).limit(lmt).onSnapshot(querySnapshot => {
 				cleanUpMapEntryTable();
 				var sno = 0;
+				/*
+
+				// This code has been deprecated in favour of a better method.
 				var approved_count = 0;
 				var pending_count = 0;
+	
+				*/
 				current_csv = '#,Map Number,Map Name,Location,Circuit Distance,Status,Date Created';
 				querySnapshot.forEach(doc => {
 					current_csv += '\n"' + sno + '","' + doc.data().map_number + '","' + doc.data().map_name + '","' + doc.data().location + '","' + doc.data().circuit_distance + ' Kilometers","' + doc.data().status + '","' + generateDateString(doc.data().timestamp) + ' at ' + generateTimeString(doc.data().timestamp) + '"';
+					/*
+
+					// This code has been deprecated in favour of a better method.
 					if (doc.data().status) approved_count++; else pending_count++;
+	
+					*/
 					sno++;
 					if (filter_status && document.getElementById('filter_status_select').options[document.getElementById('filter_status_select').options.selectedIndex].value === 'approved') {
 						if (doc.data().status) {
@@ -508,15 +549,25 @@ function handleRealTimeUpdates() {
 			});
 		}
 		else if (filter_map_number === '' && filter_location === '' && filter_map_name != '') {
-			unsubscribe = db.collection('locations').where('map_name', '==', filter_map_name).orderBy(orderBy, sortBy).limit(25).onSnapshot(querySnapshot => {
+			unsubscribe = db.collection('locations').where('map_name', '==', filter_map_name).orderBy(orderBy, sortBy).limit(lmt).onSnapshot(querySnapshot => {
 				cleanUpMapEntryTable();
 				var sno = 0;
+				/*
+
+				// This code has been deprecated in favour of a better method.
 				var approved_count = 0;
 				var pending_count = 0;
+	
+				*/
 				current_csv = '#,Map Number,Map Name,Location,Circuit Distance,Status,Date Created';
 				querySnapshot.forEach(doc => {
 					current_csv += '\n"' + sno + '","' + doc.data().map_number + '","' + doc.data().map_name + '","' + doc.data().location + '","' + doc.data().circuit_distance + ' Kilometers","' + doc.data().status + '","' + generateDateString(doc.data().timestamp) + ' at ' + generateTimeString(doc.data().timestamp) + '"';
+					/*
+
+					// This code has been deprecated in favour of a better method.
 					if (doc.data().status) approved_count++; else pending_count++;
+	
+					*/
 					sno++;
 					if (filter_status && document.getElementById('filter_status_select').options[document.getElementById('filter_status_select').options.selectedIndex].value === 'approved') {
 						if (doc.data().status) {
@@ -532,23 +583,38 @@ function handleRealTimeUpdates() {
 						buildMapEntryRow(doc.id, sno, doc.data().map_number, doc.data().map_name, doc.data().location, doc.data().circuit_distance, doc.data().status, doc.data().timestamp, doc.data().approved_by);
 					}
 				});
+				/*
+
+				// This code has been deprecated in favour of a better method.
+
 				document.getElementById('approved_maps_count').innerHTML = approved_count;
 				document.getElementById('pending_maps_count').innerHTML = pending_count;
 				document.getElementById('total_maps_count').innerHTML = sno;
+				*/
 				// Reinitialize UI
 				initializeUI();
 			});
 		}
 		else if (filter_map_name === '' && filter_location === '' && filter_map_number != '') {
-			unsubscribe = db.collection('locations').where('map_number', '==', filter_map_number).orderBy(orderBy, sortBy).limit(25).onSnapshot(querySnapshot => {
+			unsubscribe = db.collection('locations').where('map_number', '==', filter_map_number).orderBy(orderBy, sortBy).limit(lmt).onSnapshot(querySnapshot => {
 				cleanUpMapEntryTable();
 				var sno = 0;
+				/*
+
+				// This code has been deprecated in favour of a better method.
 				var approved_count = 0;
 				var pending_count = 0;
+	
+				*/
 				current_csv = '#,Map Number,Map Name,Location,Circuit Distance,Status,Date Created';
 				querySnapshot.forEach(doc => {
 					current_csv += '\n"' + sno + '","' + doc.data().map_number + '","' + doc.data().map_name + '","' + doc.data().location + '","' + doc.data().circuit_distance + ' Kilometers","' + doc.data().status + '","' + generateDateString(doc.data().timestamp) + ' at ' + generateTimeString(doc.data().timestamp) + '"';
+					/*
+
+					// This code has been deprecated in favour of a better method.
 					if (doc.data().status) approved_count++; else pending_count++;
+	
+					*/
 					sno++;
 					if (filter_status && document.getElementById('filter_status_select').options[document.getElementById('filter_status_select').options.selectedIndex].value === 'approved') {
 						if (doc.data().status) {
@@ -577,15 +643,25 @@ function handleRealTimeUpdates() {
 			});
 		}
 		else if (filter_map_number === '' && filter_map_name === '' && filter_location === '') {
-			unsubscribe = db.collection('locations').orderBy(orderBy, sortBy).limit(25).onSnapshot(querySnapshot => {
+			unsubscribe = db.collection('locations').orderBy(orderBy, sortBy).limit(lmt).onSnapshot(querySnapshot => {
 				cleanUpMapEntryTable();
 				var sno = 0;
+				/*
+
+				// This code has been deprecated in favour of a better method.
 				var approved_count = 0;
 				var pending_count = 0;
+	
+				*/
 				current_csv = '#,Map Number,Map Name,Location,Circuit Distance,Status,Date Created';
 				querySnapshot.forEach(doc => {
 					current_csv += '\n"' + sno + '","' + doc.data().map_number + '","' + doc.data().map_name + '","' + doc.data().location + '","' + doc.data().circuit_distance + ' Kilometers","' + doc.data().status + '","' + generateDateString(doc.data().timestamp) + ' at ' + generateTimeString(doc.data().timestamp) + '"';
+					/*
+
+					// This code has been deprecated in favour of a better method.
 					if (doc.data().status) approved_count++; else pending_count++;
+	
+					*/
 					sno++;
 					if (filter_status && document.getElementById('filter_status_select').options[document.getElementById('filter_status_select').options.selectedIndex].value === 'approved') {
 						if (doc.data().status) {
@@ -614,15 +690,25 @@ function handleRealTimeUpdates() {
 			});
 		}
 		else {
-			unsubscribe = db.collection('locations').where('map_number', '==', filter_map_number).where('map_name', '==', filter_map_name).where('location', '==', filter_location).orderBy(orderBy, sortBy).limit(25).onSnapshot(querySnapshot => {
+			unsubscribe = db.collection('locations').where('map_number', '==', filter_map_number).where('map_name', '==', filter_map_name).where('location', '==', filter_location).orderBy(orderBy, sortBy).limit(lmt).onSnapshot(querySnapshot => {
 				cleanUpMapEntryTable();
 				var sno = 0;
+				/*
+
+				// This code has been deprecated in favour of a better method.
 				var approved_count = 0;
 				var pending_count = 0;
+	
+				*/
 				current_csv = '#,Map Number,Map Name,Location,Circuit Distance,Status,Date Created';
 				querySnapshot.forEach(doc => {
 					current_csv += '\n"' + sno + '","' + doc.data().map_number + '","' + doc.data().map_name + '","' + doc.data().location + '","' + doc.data().circuit_distance + ' Kilometers","' + doc.data().status + '","' + generateDateString(doc.data().timestamp) + ' at ' + generateTimeString(doc.data().timestamp) + '"';
+					/*
+
+					// This code has been deprecated in favour of a better method.
 					if (doc.data().status) approved_count++; else pending_count++;
+	
+					*/
 					sno++;
 					if (filter_status && document.getElementById('filter_status_select').options[document.getElementById('filter_status_select').options.selectedIndex].value === 'approved') {
 						if (doc.data().status) {
@@ -660,15 +746,25 @@ function handleRealTimeUpdates() {
 			orderBy = 'timestamp';
 			sortBy = document.getElementById('filter_timestamp_select').options[document.getElementById('filter_timestamp_select').options.selectedIndex].value;
 		}
-		unsubscribe = db.collection('locations').orderBy(orderBy, sortBy).limit(25).onSnapshot(querySnapshot => {
+		unsubscribe = db.collection('locations').orderBy(orderBy, sortBy).limit(lmt).onSnapshot(querySnapshot => {
 			cleanUpMapEntryTable();
 			var sno = 0;
-			var approved_count = 0;
-			var pending_count = 0;
+			/*
+
+				// This code has been deprecated in favour of a better method.
+				var approved_count = 0;
+				var pending_count = 0;
+	
+				*/
 			current_csv = '#,Map Number,Map Name,Location,Circuit Distance,Status,Date Created';
 			querySnapshot.forEach(doc => {
 				current_csv += '\n"' + sno + '","' + doc.data().map_number + '","' + doc.data().map_name + '","' + doc.data().location + '","' + doc.data().circuit_distance + ' Kilometers","' + doc.data().status + '","' + generateDateString(doc.data().timestamp) + ' at ' + generateTimeString(doc.data().timestamp) + '"';
+				/*
+
+				// This code has been deprecated in favour of a better method.
 				if (doc.data().status) approved_count++; else pending_count++;
+	
+				*/
 				sno++;
 				if (filter_status && document.getElementById('filter_status_select').options[document.getElementById('filter_status_select').options.selectedIndex].value === 'approved') {
 					if (doc.data().status) {
@@ -696,6 +792,13 @@ function handleRealTimeUpdates() {
 			initializeUI();
 		});
 	}
+}
+
+/* Change row limit function */
+function changeRowLimit(lt) {
+	lmt += lt;
+	unsubscribe();
+	handleRealTimeUpdates();
 }
 
 /* Prepare geojson function */
@@ -933,6 +1036,13 @@ window.onload = function () {
 	}
 	document.getElementById('btn_print').onclick = function () {
 		downloadCsv();
+	}
+	document.getElementById('btn_minus_25').onclick = function () {
+		if (lmt > 25) changeRowLimit(-25);
+		else lmt = 25;
+	}
+	document.getElementById('btn_plus_25').onclick = function () {
+		changeRowLimit(25);
 	}
 
 	/* Establish input listeners */
