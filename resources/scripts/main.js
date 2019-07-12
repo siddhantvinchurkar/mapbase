@@ -343,6 +343,13 @@ function buildMapEntryRow(docId, sno, mno, mn, loc, cd, statusBool, timestamp, a
 
 /* Handle Real Time Updates */
 function handleRealTimeUpdates() {
+	db.collection('locations').doc('counters').onSnapshot(doc => {
+		document.getElementById('approved_maps_count').innerHTML = doc.data().approved;
+		document.getElementById('pending_maps_count').innerHTML = doc.data().pending;
+		document.getElementById('total_maps_count').innerHTML = doc.data().total;
+		// Reinitialize UI
+		initializeUI();
+	});
 	if (filters) {
 		if (filter_circuit_distance) {
 			orderBy = 'circuit_distance';
@@ -353,7 +360,7 @@ function handleRealTimeUpdates() {
 			sortBy = document.getElementById('filter_timestamp_select').options[document.getElementById('filter_timestamp_select').options.selectedIndex].value;
 		}
 		if (filter_map_number === '' && filter_map_name != '' && filter_location != '') {
-			unsubscribe = db.collection('locations').where('map_name', '==', filter_map_name).where('location', '==', filter_location).orderBy(orderBy, sortBy).onSnapshot(querySnapshot => {
+			unsubscribe = db.collection('locations').where('map_name', '==', filter_map_name).where('location', '==', filter_location).orderBy(orderBy, sortBy).limit(25).onSnapshot(querySnapshot => {
 				cleanUpMapEntryTable();
 				var sno = 0;
 				var approved_count = 0;
@@ -377,15 +384,20 @@ function handleRealTimeUpdates() {
 						buildMapEntryRow(doc.id, sno, doc.data().map_number, doc.data().map_name, doc.data().location, doc.data().circuit_distance, doc.data().status, doc.data().timestamp, doc.data().approved_by);
 					}
 				});
+				/*
+
+				// This code has been deprecated in favour of a better method.
+
 				document.getElementById('approved_maps_count').innerHTML = approved_count;
 				document.getElementById('pending_maps_count').innerHTML = pending_count;
 				document.getElementById('total_maps_count').innerHTML = sno;
+				*/
 				// Reinitialize UI
 				initializeUI();
 			});
 		}
 		else if (filter_map_name === '' && filter_map_number != '' && filter_location != '') {
-			unsubscribe = db.collection('locations').where('map_number', '==', filter_map_number).where('location', '==', filter_location).orderBy(orderBy, sortBy).onSnapshot(querySnapshot => {
+			unsubscribe = db.collection('locations').where('map_number', '==', filter_map_number).where('location', '==', filter_location).orderBy(orderBy, sortBy).limit(25).onSnapshot(querySnapshot => {
 				cleanUpMapEntryTable();
 				var sno = 0;
 				var approved_count = 0;
@@ -409,15 +421,20 @@ function handleRealTimeUpdates() {
 						buildMapEntryRow(doc.id, sno, doc.data().map_number, doc.data().map_name, doc.data().location, doc.data().circuit_distance, doc.data().status, doc.data().timestamp, doc.data().approved_by);
 					}
 				});
+				/*
+
+				// This code has been deprecated in favour of a better method.
+
 				document.getElementById('approved_maps_count').innerHTML = approved_count;
 				document.getElementById('pending_maps_count').innerHTML = pending_count;
 				document.getElementById('total_maps_count').innerHTML = sno;
+				*/
 				// Reinitialize UI
 				initializeUI();
 			});
 		}
 		else if (filter_location === '' && filter_map_number != '' && filter_map_name != '') {
-			unsubscribe = db.collection('locations').where('map_number', '==', filter_map_number).where('map_name', '==', filter_map_name).orderBy(orderBy, sortBy).onSnapshot(querySnapshot => {
+			unsubscribe = db.collection('locations').where('map_number', '==', filter_map_number).where('map_name', '==', filter_map_name).orderBy(orderBy, sortBy).limit(25).onSnapshot(querySnapshot => {
 				cleanUpMapEntryTable();
 				var sno = 0;
 				var approved_count = 0;
@@ -441,15 +458,20 @@ function handleRealTimeUpdates() {
 						buildMapEntryRow(doc.id, sno, doc.data().map_number, doc.data().map_name, doc.data().location, doc.data().circuit_distance, doc.data().status, doc.data().timestamp, doc.data().approved_by);
 					}
 				});
+				/*
+
+				// This code has been deprecated in favour of a better method.
+
 				document.getElementById('approved_maps_count').innerHTML = approved_count;
 				document.getElementById('pending_maps_count').innerHTML = pending_count;
 				document.getElementById('total_maps_count').innerHTML = sno;
+				*/
 				// Reinitialize UI
 				initializeUI();
 			});
 		}
 		else if (filter_map_number === '' && filter_map_name === '' && filter_location != '') {
-			unsubscribe = db.collection('locations').where('location', '==', filter_location).orderBy(orderBy, sortBy).onSnapshot(querySnapshot => {
+			unsubscribe = db.collection('locations').where('location', '==', filter_location).orderBy(orderBy, sortBy).limit(25).onSnapshot(querySnapshot => {
 				cleanUpMapEntryTable();
 				var sno = 0;
 				var approved_count = 0;
@@ -473,15 +495,20 @@ function handleRealTimeUpdates() {
 						buildMapEntryRow(doc.id, sno, doc.data().map_number, doc.data().map_name, doc.data().location, doc.data().circuit_distance, doc.data().status, doc.data().timestamp, doc.data().approved_by);
 					}
 				});
+				/*
+
+				// This code has been deprecated in favour of a better method.
+
 				document.getElementById('approved_maps_count').innerHTML = approved_count;
 				document.getElementById('pending_maps_count').innerHTML = pending_count;
 				document.getElementById('total_maps_count').innerHTML = sno;
+				*/
 				// Reinitialize UI
 				initializeUI();
 			});
 		}
 		else if (filter_map_number === '' && filter_location === '' && filter_map_name != '') {
-			unsubscribe = db.collection('locations').where('map_name', '==', filter_map_name).orderBy(orderBy, sortBy).onSnapshot(querySnapshot => {
+			unsubscribe = db.collection('locations').where('map_name', '==', filter_map_name).orderBy(orderBy, sortBy).limit(25).onSnapshot(querySnapshot => {
 				cleanUpMapEntryTable();
 				var sno = 0;
 				var approved_count = 0;
@@ -513,7 +540,7 @@ function handleRealTimeUpdates() {
 			});
 		}
 		else if (filter_map_name === '' && filter_location === '' && filter_map_number != '') {
-			unsubscribe = db.collection('locations').where('map_number', '==', filter_map_number).orderBy(orderBy, sortBy).onSnapshot(querySnapshot => {
+			unsubscribe = db.collection('locations').where('map_number', '==', filter_map_number).orderBy(orderBy, sortBy).limit(25).onSnapshot(querySnapshot => {
 				cleanUpMapEntryTable();
 				var sno = 0;
 				var approved_count = 0;
@@ -537,15 +564,20 @@ function handleRealTimeUpdates() {
 						buildMapEntryRow(doc.id, sno, doc.data().map_number, doc.data().map_name, doc.data().location, doc.data().circuit_distance, doc.data().status, doc.data().timestamp, doc.data().approved_by);
 					}
 				});
+				/*
+
+				// This code has been deprecated in favour of a better method.
+
 				document.getElementById('approved_maps_count').innerHTML = approved_count;
 				document.getElementById('pending_maps_count').innerHTML = pending_count;
 				document.getElementById('total_maps_count').innerHTML = sno;
+				*/
 				// Reinitialize UI
 				initializeUI();
 			});
 		}
 		else if (filter_map_number === '' && filter_map_name === '' && filter_location === '') {
-			unsubscribe = db.collection('locations').orderBy(orderBy, sortBy).onSnapshot(querySnapshot => {
+			unsubscribe = db.collection('locations').orderBy(orderBy, sortBy).limit(25).onSnapshot(querySnapshot => {
 				cleanUpMapEntryTable();
 				var sno = 0;
 				var approved_count = 0;
@@ -569,15 +601,20 @@ function handleRealTimeUpdates() {
 						buildMapEntryRow(doc.id, sno, doc.data().map_number, doc.data().map_name, doc.data().location, doc.data().circuit_distance, doc.data().status, doc.data().timestamp, doc.data().approved_by);
 					}
 				});
+				/*
+
+				// This code has been deprecated in favour of a better method.
+
 				document.getElementById('approved_maps_count').innerHTML = approved_count;
 				document.getElementById('pending_maps_count').innerHTML = pending_count;
 				document.getElementById('total_maps_count').innerHTML = sno;
+				*/
 				// Reinitialize UI
 				initializeUI();
 			});
 		}
 		else {
-			unsubscribe = db.collection('locations').where('map_number', '==', filter_map_number).where('map_name', '==', filter_map_name).where('location', '==', filter_location).orderBy(orderBy, sortBy).onSnapshot(querySnapshot => {
+			unsubscribe = db.collection('locations').where('map_number', '==', filter_map_number).where('map_name', '==', filter_map_name).where('location', '==', filter_location).orderBy(orderBy, sortBy).limit(25).onSnapshot(querySnapshot => {
 				cleanUpMapEntryTable();
 				var sno = 0;
 				var approved_count = 0;
@@ -601,9 +638,14 @@ function handleRealTimeUpdates() {
 						buildMapEntryRow(doc.id, sno, doc.data().map_number, doc.data().map_name, doc.data().location, doc.data().circuit_distance, doc.data().status, doc.data().timestamp, doc.data().approved_by);
 					}
 				});
+				/*
+
+				// This code has been deprecated in favour of a better method.
+
 				document.getElementById('approved_maps_count').innerHTML = approved_count;
 				document.getElementById('pending_maps_count').innerHTML = pending_count;
 				document.getElementById('total_maps_count').innerHTML = sno;
+				*/
 				// Reinitialize UI
 				initializeUI();
 			});
@@ -618,7 +660,7 @@ function handleRealTimeUpdates() {
 			orderBy = 'timestamp';
 			sortBy = document.getElementById('filter_timestamp_select').options[document.getElementById('filter_timestamp_select').options.selectedIndex].value;
 		}
-		unsubscribe = db.collection('locations').orderBy(orderBy, sortBy).onSnapshot(querySnapshot => {
+		unsubscribe = db.collection('locations').orderBy(orderBy, sortBy).limit(25).onSnapshot(querySnapshot => {
 			cleanUpMapEntryTable();
 			var sno = 0;
 			var approved_count = 0;
@@ -642,9 +684,14 @@ function handleRealTimeUpdates() {
 					buildMapEntryRow(doc.id, sno, doc.data().map_number, doc.data().map_name, doc.data().location, doc.data().circuit_distance, doc.data().status, doc.data().timestamp, doc.data().approved_by);
 				}
 			});
-			document.getElementById('approved_maps_count').innerHTML = approved_count;
-			document.getElementById('pending_maps_count').innerHTML = pending_count;
-			document.getElementById('total_maps_count').innerHTML = sno;
+			/*
+
+				// This code has been deprecated in favour of a better method.
+
+				document.getElementById('approved_maps_count').innerHTML = approved_count;
+				document.getElementById('pending_maps_count').innerHTML = pending_count;
+				document.getElementById('total_maps_count').innerHTML = sno;
+				*/
 			// Reinitialize UI
 			initializeUI();
 		});
@@ -778,9 +825,9 @@ function uploadGeoJson(fileList) {
 						}, ((globalIndex == 0 ? 1 : globalIndex) * 5000));
 					}
 					else {
-						reject(false);
+						if (globalIndex === filey.length - 1) reject(false);
 					}
-					resolve(true);
+					if (globalIndex === filey.length - 1) resolve(true);
 				});
 			}
 		});
@@ -940,7 +987,9 @@ window.onload = function () {
 			document.getElementById('btn_upload_geojson').classList.remove('disabled');
 			document.getElementById('btn_upload_geojson').innerHTML = '<i class="material-icons left">cloud_upload</i>Upload geojson files';
 		}, function (status) {
-			document.getElementById('btn_upload_geojson').innerHTML = '<i class="material-icons left">cloud_upload</i>Upload failed! You\'re a failure!';
+			//document.getElementById('btn_upload_geojson').innerHTML = '<i class="material-icons left">cloud_upload</i>Upload failed! You\'re a failure!';
+			document.getElementById('btn_upload_geojson').classList.remove('disabled');
+			document.getElementById('btn_upload_geojson').innerHTML = '<i class="material-icons left">cloud_upload</i>Upload geojson files';
 		});
 	}
 

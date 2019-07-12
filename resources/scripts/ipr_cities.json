@@ -127,7 +127,7 @@
     },
     {
       "city_name": "Pune",
-      "city_code": "PUN",
+      "city_code": "PNQ",
       "city_state": "Maharashtra"
     },
     {
@@ -296,19 +296,24 @@
       "city_state": "West Bengal"
     },
     {
-      "city_name": "GOA",
+      "city_name": "Goa",
       "city_code": "GOA",
       "city_state": "Goa"
     },
     {
-      "city_name": "PONDICHERRY",
-      "city_code": "POC",
-      "city_state": "Tamil Nadu"
+      "city_name": "Pondicherry",
+      "city_code": "POD",
+      "city_state": " (Union Territory)"
     },
     {
       "city_name": "New Town",
-      "city_code": "POC",
-      "city_state": "Tamil Nadu"
+      "city_code": "POD",
+      "city_state": " (Union Territory)"
+    },
+    {
+      "city_name": "Puducherry",
+      "city_code": "POD",
+      "city_state": " (Union Territory)"
     }
   ]
 }
