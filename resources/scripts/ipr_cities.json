@@ -187,12 +187,12 @@
     },
     {
       "city_name": "Visakhapatnam",
-      "city_code": "VIS",
+      "city_code": "VIK",
       "city_state": "Seemandhra"
     },
     {
       "city_name": "Vizag",
-      "city_code": "VIS",
+      "city_code": "VIK",
       "city_state": "Seemandhra"
     },
     {
@@ -314,6 +314,11 @@
       "city_name": "Puducherry",
       "city_code": "POD",
       "city_state": " (Union Territory)"
+    },
+    {
+      "city_name": "Jamshedpur",
+      "city_code": "JAS",
+      "city_state": "Jharkhand"
     }
   ]
 }

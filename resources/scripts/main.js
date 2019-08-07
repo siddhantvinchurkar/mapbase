@@ -8,6 +8,7 @@ var filter_location = '';
 var filter_circuit_distance = false;
 var filter_status = false;
 var filter_timestamp = true;
+var filter_area_pin = true;
 var unsubscribe = null;
 var filters = false;
 var autoCompleteList = {};
@@ -21,7 +22,7 @@ var fileIndex = 0;
 var globalIndex = 0;
 var downloadURLList = [];
 var lmt = 25;
-var current_csv = '#,Map Number,Map Name,Location,Circuit Distance,Status,Date Created';
+var current_csv = '#,Map Number,Map Link,Map Name,Location,Pin Code,Circuit Distance,Status,Date Created';
 var month = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 var week = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 var os = [
@@ -332,14 +333,14 @@ function cleanUpMapEntryTable() {
 }
 
 /* Map entry row builder function */
-function buildMapEntryRow(docId, sno, mno, mn, loc, cd, statusBool, timestamp, approved_by) {
+function buildMapEntryRow(docId, sno, mno, mn, loc, cd, statusBool, timestamp, approved_by, area_pin = '413201') {
 	var status = null;
 	if (statusBool) {
 		status = '<span style="color:#004400;">Map approved by ' + approved_by + '</span>';
 	}
 	else status = '<span style="color:#440000;">Pending</span>';
 	var actions = '<a rel="noreferrer" onclick="handleAction(\'view_map\',\'' + docId + '\');" class="btn-floating waves-effect waves-light blue darken-3 tooltipped z-depth-2" data-tooltip="View this map" data-position="bottom"><i class="material-icons">info</i></a>&emsp;<a rel="noreferrer" onclick="handleAction(\'approve_map\',\'' + docId + '\');" class="btn-floating waves-effect waves-light green darken-3 tooltipped z-depth-2" data-tooltip="Approve this map" data-position="bottom"><i class="material-icons">check</i></a>&emsp;<a rel="noreferrer" onclick="handleAction(\'disapprove_map\',\'' + docId + '\');" class="btn-floating waves-effect waves-light orange darken-3 tooltipped z-depth-2" data-tooltip="Disapprove this map" data-position="bottom"><i class="material-icons">undo</i></a>&emsp;<a rel="noreferrer" onclick="handleAction(\'delete_map\',\'' + docId + '\');" class="btn-floating waves-effect waves-light red darken-3 tooltipped z-depth-2" data-tooltip="Delete this map" data-position="bottom"><i class="material-icons">close</i></a>';
-	document.getElementById('screen_database_rows').innerHTML += '<tr><td style="width: 25px;">' + sno + '</td><td><a href="https://github.com/siddhantvinchurkar/mapbase-dataset/blob/master/' + mno.substring(0, mno.lastIndexOf('-')) + '/' + mno + '.json" target="_blank" rel="noreferrer"><b>' + mno + '</b></a></td><td>' + mn + '</td><td><a href="https://github.com/siddhantvinchurkar/mapbase-dataset/blob/master/' + mno.substring(0, mno.lastIndexOf('-')) + '/All.json" target="_blank" rel="noreferrer"><b>' + loc + '</b></a></td><td>' + cd + ' Kilometers</td><td>' + status + '</td><td>' + generateColorCodedDateString(timestamp, '#004400', '#000044', true, true) + '</td><td>' + actions + '</td></tr>';
+	document.getElementById('screen_database_rows').innerHTML += '<tr><td style="width: 25px;">' + sno + '</td><td><a href="https://github.com/siddhantvinchurkar/mapbase-dataset/blob/master/' + mno.substring(0, mno.lastIndexOf('-')) + '/' + mno + '.json" target="_blank" rel="noreferrer"><b>' + mno + '</b></a></td><td>' + mn + '</td><td><a href="https://github.com/siddhantvinchurkar/mapbase-dataset/blob/master/' + mno.substring(0, mno.lastIndexOf('-')) + '/All.json" target="_blank" rel="noreferrer"><b>' + loc + '</b></a></td><td>' + area_pin + '</td><td>' + cd + ' Kilometers</td><td>' + status + '</td><td>' + generateColorCodedDateString(timestamp, '#004400', '#000044', true, true) + '</td><td>' + actions + '</td></tr>';
 }
 
 /* Handle Real Time Updates */
@@ -371,9 +372,9 @@ function handleRealTimeUpdates() {
 				var pending_count = 0;
 
 				*/
-				current_csv = '#,Map Number,Map Name,Location,Circuit Distance,Status,Date Created';
+				current_csv = '#,Map Number,Map Link,Map Name,Location,Pin Code,Circuit Distance,Status,Date Created';
 				querySnapshot.forEach(doc => {
-					current_csv += '\n"' + sno + '","' + doc.data().map_number + '","' + doc.data().map_name + '","' + doc.data().location + '","' + doc.data().circuit_distance + ' Kilometers","' + doc.data().status + '","' + generateDateString(doc.data().timestamp) + ' at ' + generateTimeString(doc.data().timestamp) + '"';
+					current_csv += '\n"' + sno + '","' + doc.data().map_number + '","' + 'https://github.com/siddhantvinchurkar/mapbase-dataset/blob/master/' + doc.data().map_number.substring(0, doc.data().map_number.lastIndexOf('-')) + '/' + doc.data().map_number + '.json' + '","' + doc.data().map_name + '","' + doc.data().location + '","' + doc.data().area_pin + '","' + doc.data().circuit_distance + ' Kilometers","' + doc.data().status + '","' + generateDateString(doc.data().timestamp) + ' at ' + generateTimeString(doc.data().timestamp) + '"';
 					/*
 
 					// This code has been deprecated in favour of a better method.
@@ -383,16 +384,16 @@ function handleRealTimeUpdates() {
 					sno++;
 					if (filter_status && document.getElementById('filter_status_select').options[document.getElementById('filter_status_select').options.selectedIndex].value === 'approved') {
 						if (doc.data().status) {
-							buildMapEntryRow(doc.id, sno, doc.data().map_number, doc.data().map_name, doc.data().location, doc.data().circuit_distance, doc.data().status, doc.data().timestamp, doc.data().approved_by);
+							buildMapEntryRow(doc.id, sno, doc.data().map_number, doc.data().map_name, doc.data().location, doc.data().circuit_distance, doc.data().status, doc.data().timestamp, doc.data().approved_by, doc.data().area_pin);
 						}
 					}
 					else if (filter_status && document.getElementById('filter_status_select').options[document.getElementById('filter_status_select').options.selectedIndex].value === 'pending') {
 						if (!doc.data().status) {
-							buildMapEntryRow(doc.id, sno, doc.data().map_number, doc.data().map_name, doc.data().location, doc.data().circuit_distance, doc.data().status, doc.data().timestamp, doc.data().approved_by);
+							buildMapEntryRow(doc.id, sno, doc.data().map_number, doc.data().map_name, doc.data().location, doc.data().circuit_distance, doc.data().status, doc.data().timestamp, doc.data().approved_by, doc.data().area_pin);
 						}
 					}
 					else {
-						buildMapEntryRow(doc.id, sno, doc.data().map_number, doc.data().map_name, doc.data().location, doc.data().circuit_distance, doc.data().status, doc.data().timestamp, doc.data().approved_by);
+						buildMapEntryRow(doc.id, sno, doc.data().map_number, doc.data().map_name, doc.data().location, doc.data().circuit_distance, doc.data().status, doc.data().timestamp, doc.data().approved_by, doc.data().area_pin);
 					}
 				});
 				/*
@@ -418,9 +419,9 @@ function handleRealTimeUpdates() {
 				var pending_count = 0;
 	
 				*/
-				current_csv = '#,Map Number,Map Name,Location,Circuit Distance,Status,Date Created';
+				current_csv = '#,Map Number,Map Link,Map Name,Location,Pin Code,Circuit Distance,Status,Date Created';
 				querySnapshot.forEach(doc => {
-					current_csv += '\n"' + sno + '","' + doc.data().map_number + '","' + doc.data().map_name + '","' + doc.data().location + '","' + doc.data().circuit_distance + ' Kilometers","' + doc.data().status + '","' + generateDateString(doc.data().timestamp) + ' at ' + generateTimeString(doc.data().timestamp) + '"';
+					current_csv += '\n"' + sno + '","' + doc.data().map_number + '","' + 'https://github.com/siddhantvinchurkar/mapbase-dataset/blob/master/' + doc.data().map_number.substring(0, doc.data().map_number.lastIndexOf('-')) + '/' + doc.data().map_number + '.json' + '","' + doc.data().map_name + '","' + doc.data().location + '","' + doc.data().area_pin + '","' + doc.data().circuit_distance + ' Kilometers","' + doc.data().status + '","' + generateDateString(doc.data().timestamp) + ' at ' + generateTimeString(doc.data().timestamp) + '"';
 					/*
 
 					// This code has been deprecated in favour of a better method.
@@ -430,16 +431,16 @@ function handleRealTimeUpdates() {
 					sno++;
 					if (filter_status && document.getElementById('filter_status_select').options[document.getElementById('filter_status_select').options.selectedIndex].value === 'approved') {
 						if (doc.data().status) {
-							buildMapEntryRow(doc.id, sno, doc.data().map_number, doc.data().map_name, doc.data().location, doc.data().circuit_distance, doc.data().status, doc.data().timestamp, doc.data().approved_by);
+							buildMapEntryRow(doc.id, sno, doc.data().map_number, doc.data().map_name, doc.data().location, doc.data().circuit_distance, doc.data().status, doc.data().timestamp, doc.data().approved_by, doc.data().area_pin);
 						}
 					}
 					else if (filter_status && document.getElementById('filter_status_select').options[document.getElementById('filter_status_select').options.selectedIndex].value === 'pending') {
 						if (!doc.data().status) {
-							buildMapEntryRow(doc.id, sno, doc.data().map_number, doc.data().map_name, doc.data().location, doc.data().circuit_distance, doc.data().status, doc.data().timestamp, doc.data().approved_by);
+							buildMapEntryRow(doc.id, sno, doc.data().map_number, doc.data().map_name, doc.data().location, doc.data().circuit_distance, doc.data().status, doc.data().timestamp, doc.data().approved_by, doc.data().area_pin);
 						}
 					}
 					else {
-						buildMapEntryRow(doc.id, sno, doc.data().map_number, doc.data().map_name, doc.data().location, doc.data().circuit_distance, doc.data().status, doc.data().timestamp, doc.data().approved_by);
+						buildMapEntryRow(doc.id, sno, doc.data().map_number, doc.data().map_name, doc.data().location, doc.data().circuit_distance, doc.data().status, doc.data().timestamp, doc.data().approved_by, doc.data().area_pin);
 					}
 				});
 				/*
@@ -465,9 +466,9 @@ function handleRealTimeUpdates() {
 				var pending_count = 0;
 	
 				*/
-				current_csv = '#,Map Number,Map Name,Location,Circuit Distance,Status,Date Created';
+				current_csv = '#,Map Number,Map Link,Map Name,Location,Pin Code,Circuit Distance,Status,Date Created';
 				querySnapshot.forEach(doc => {
-					current_csv += '\n"' + sno + '","' + doc.data().map_number + '","' + doc.data().map_name + '","' + doc.data().location + '","' + doc.data().circuit_distance + ' Kilometers","' + doc.data().status + '","' + generateDateString(doc.data().timestamp) + ' at ' + generateTimeString(doc.data().timestamp) + '"';
+					current_csv += '\n"' + sno + '","' + doc.data().map_number + '","' + 'https://github.com/siddhantvinchurkar/mapbase-dataset/blob/master/' + doc.data().map_number.substring(0, doc.data().map_number.lastIndexOf('-')) + '/' + doc.data().map_number + '.json' + '","' + doc.data().map_name + '","' + doc.data().location + '","' + doc.data().area_pin + '","' + doc.data().circuit_distance + ' Kilometers","' + doc.data().status + '","' + generateDateString(doc.data().timestamp) + ' at ' + generateTimeString(doc.data().timestamp) + '"';
 					/*
 
 					// This code has been deprecated in favour of a better method.
@@ -477,16 +478,63 @@ function handleRealTimeUpdates() {
 					sno++;
 					if (filter_status && document.getElementById('filter_status_select').options[document.getElementById('filter_status_select').options.selectedIndex].value === 'approved') {
 						if (doc.data().status) {
-							buildMapEntryRow(doc.id, sno, doc.data().map_number, doc.data().map_name, doc.data().location, doc.data().circuit_distance, doc.data().status, doc.data().timestamp, doc.data().approved_by);
+							buildMapEntryRow(doc.id, sno, doc.data().map_number, doc.data().map_name, doc.data().location, doc.data().circuit_distance, doc.data().status, doc.data().timestamp, doc.data().approved_by, doc.data().area_pin);
 						}
 					}
 					else if (filter_status && document.getElementById('filter_status_select').options[document.getElementById('filter_status_select').options.selectedIndex].value === 'pending') {
 						if (!doc.data().status) {
-							buildMapEntryRow(doc.id, sno, doc.data().map_number, doc.data().map_name, doc.data().location, doc.data().circuit_distance, doc.data().status, doc.data().timestamp, doc.data().approved_by);
+							buildMapEntryRow(doc.id, sno, doc.data().map_number, doc.data().map_name, doc.data().location, doc.data().circuit_distance, doc.data().status, doc.data().timestamp, doc.data().approved_by, doc.data().area_pin);
 						}
 					}
 					else {
-						buildMapEntryRow(doc.id, sno, doc.data().map_number, doc.data().map_name, doc.data().location, doc.data().circuit_distance, doc.data().status, doc.data().timestamp, doc.data().approved_by);
+						buildMapEntryRow(doc.id, sno, doc.data().map_number, doc.data().map_name, doc.data().location, doc.data().circuit_distance, doc.data().status, doc.data().timestamp, doc.data().approved_by, doc.data().area_pin);
+					}
+				});
+				/*
+
+				// This code has been deprecated in favour of a better method.
+
+				document.getElementById('approved_maps_count').innerHTML = approved_count;
+				document.getElementById('pending_maps_count').innerHTML = pending_count;
+				document.getElementById('total_maps_count').innerHTML = sno;
+				*/
+				// Reinitialize UI
+				initializeUI();
+			});
+		}
+		else if (filter_location === '' && filter_map_number === '' && filter_map_name === '' && filter_area_pin != '') {
+			unsubscribe = db.collection('locations').where('area_pin', '==', filter_area_pin).orderBy(orderBy, sortBy).limit(lmt).onSnapshot(querySnapshot => {
+				cleanUpMapEntryTable();
+				var sno = 0;
+				/*
+
+				// This code has been deprecated in favour of a better method.
+				var approved_count = 0;
+				var pending_count = 0;
+	
+				*/
+				current_csv = '#,Map Number,Map Link,Map Name,Location,Pin Code,Circuit Distance,Status,Date Created';
+				querySnapshot.forEach(doc => {
+					current_csv += '\n"' + sno + '","' + doc.data().map_number + '","' + 'https://github.com/siddhantvinchurkar/mapbase-dataset/blob/master/' + doc.data().map_number.substring(0, doc.data().map_number.lastIndexOf('-')) + '/' + doc.data().map_number + '.json' + '","' + doc.data().map_name + '","' + doc.data().location + '","' + doc.data().area_pin + '","' + doc.data().circuit_distance + ' Kilometers","' + doc.data().status + '","' + generateDateString(doc.data().timestamp) + ' at ' + generateTimeString(doc.data().timestamp) + '"';
+					/*
+
+					// This code has been deprecated in favour of a better method.
+					if (doc.data().status) approved_count++; else pending_count++;
+	
+					*/
+					sno++;
+					if (filter_status && document.getElementById('filter_status_select').options[document.getElementById('filter_status_select').options.selectedIndex].value === 'approved') {
+						if (doc.data().status) {
+							buildMapEntryRow(doc.id, sno, doc.data().map_number, doc.data().map_name, doc.data().location, doc.data().circuit_distance, doc.data().status, doc.data().timestamp, doc.data().approved_by, doc.data().area_pin);
+						}
+					}
+					else if (filter_status && document.getElementById('filter_status_select').options[document.getElementById('filter_status_select').options.selectedIndex].value === 'pending') {
+						if (!doc.data().status) {
+							buildMapEntryRow(doc.id, sno, doc.data().map_number, doc.data().map_name, doc.data().location, doc.data().circuit_distance, doc.data().status, doc.data().timestamp, doc.data().approved_by, doc.data().area_pin);
+						}
+					}
+					else {
+						buildMapEntryRow(doc.id, sno, doc.data().map_number, doc.data().map_name, doc.data().location, doc.data().circuit_distance, doc.data().status, doc.data().timestamp, doc.data().approved_by, doc.data().area_pin);
 					}
 				});
 				/*
@@ -512,9 +560,9 @@ function handleRealTimeUpdates() {
 				var pending_count = 0;
 	
 				*/
-				current_csv = '#,Map Number,Map Name,Location,Circuit Distance,Status,Date Created';
+				current_csv = '#,Map Number,Map Link,Map Name,Location,Pin Code,Circuit Distance,Status,Date Created';
 				querySnapshot.forEach(doc => {
-					current_csv += '\n"' + sno + '","' + doc.data().map_number + '","' + doc.data().map_name + '","' + doc.data().location + '","' + doc.data().circuit_distance + ' Kilometers","' + doc.data().status + '","' + generateDateString(doc.data().timestamp) + ' at ' + generateTimeString(doc.data().timestamp) + '"';
+					current_csv += '\n"' + sno + '","' + doc.data().map_number + '","' + 'https://github.com/siddhantvinchurkar/mapbase-dataset/blob/master/' + doc.data().map_number.substring(0, doc.data().map_number.lastIndexOf('-')) + '/' + doc.data().map_number + '.json' + '","' + doc.data().map_name + '","' + doc.data().location + '","' + doc.data().area_pin + '","' + doc.data().circuit_distance + ' Kilometers","' + doc.data().status + '","' + generateDateString(doc.data().timestamp) + ' at ' + generateTimeString(doc.data().timestamp) + '"';
 					/*
 
 					// This code has been deprecated in favour of a better method.
@@ -524,16 +572,16 @@ function handleRealTimeUpdates() {
 					sno++;
 					if (filter_status && document.getElementById('filter_status_select').options[document.getElementById('filter_status_select').options.selectedIndex].value === 'approved') {
 						if (doc.data().status) {
-							buildMapEntryRow(doc.id, sno, doc.data().map_number, doc.data().map_name, doc.data().location, doc.data().circuit_distance, doc.data().status, doc.data().timestamp, doc.data().approved_by);
+							buildMapEntryRow(doc.id, sno, doc.data().map_number, doc.data().map_name, doc.data().location, doc.data().circuit_distance, doc.data().status, doc.data().timestamp, doc.data().approved_by, doc.data().area_pin);
 						}
 					}
 					else if (filter_status && document.getElementById('filter_status_select').options[document.getElementById('filter_status_select').options.selectedIndex].value === 'pending') {
 						if (!doc.data().status) {
-							buildMapEntryRow(doc.id, sno, doc.data().map_number, doc.data().map_name, doc.data().location, doc.data().circuit_distance, doc.data().status, doc.data().timestamp, doc.data().approved_by);
+							buildMapEntryRow(doc.id, sno, doc.data().map_number, doc.data().map_name, doc.data().location, doc.data().circuit_distance, doc.data().status, doc.data().timestamp, doc.data().approved_by, doc.data().area_pin);
 						}
 					}
 					else {
-						buildMapEntryRow(doc.id, sno, doc.data().map_number, doc.data().map_name, doc.data().location, doc.data().circuit_distance, doc.data().status, doc.data().timestamp, doc.data().approved_by);
+						buildMapEntryRow(doc.id, sno, doc.data().map_number, doc.data().map_name, doc.data().location, doc.data().circuit_distance, doc.data().status, doc.data().timestamp, doc.data().approved_by, doc.data().area_pin);
 					}
 				});
 				/*
@@ -559,9 +607,9 @@ function handleRealTimeUpdates() {
 				var pending_count = 0;
 	
 				*/
-				current_csv = '#,Map Number,Map Name,Location,Circuit Distance,Status,Date Created';
+				current_csv = '#,Map Number,Map Link,Map Name,Location,Pin Code,Circuit Distance,Status,Date Created';
 				querySnapshot.forEach(doc => {
-					current_csv += '\n"' + sno + '","' + doc.data().map_number + '","' + doc.data().map_name + '","' + doc.data().location + '","' + doc.data().circuit_distance + ' Kilometers","' + doc.data().status + '","' + generateDateString(doc.data().timestamp) + ' at ' + generateTimeString(doc.data().timestamp) + '"';
+					current_csv += '\n"' + sno + '","' + doc.data().map_number + '","' + 'https://github.com/siddhantvinchurkar/mapbase-dataset/blob/master/' + doc.data().map_number.substring(0, doc.data().map_number.lastIndexOf('-')) + '/' + doc.data().map_number + '.json' + '","' + doc.data().map_name + '","' + doc.data().location + '","' + doc.data().area_pin + '","' + doc.data().circuit_distance + ' Kilometers","' + doc.data().status + '","' + generateDateString(doc.data().timestamp) + ' at ' + generateTimeString(doc.data().timestamp) + '"';
 					/*
 
 					// This code has been deprecated in favour of a better method.
@@ -571,16 +619,16 @@ function handleRealTimeUpdates() {
 					sno++;
 					if (filter_status && document.getElementById('filter_status_select').options[document.getElementById('filter_status_select').options.selectedIndex].value === 'approved') {
 						if (doc.data().status) {
-							buildMapEntryRow(doc.id, sno, doc.data().map_number, doc.data().map_name, doc.data().location, doc.data().circuit_distance, doc.data().status, doc.data().timestamp, doc.data().approved_by);
+							buildMapEntryRow(doc.id, sno, doc.data().map_number, doc.data().map_name, doc.data().location, doc.data().circuit_distance, doc.data().status, doc.data().timestamp, doc.data().approved_by, doc.data().area_pin);
 						}
 					}
 					else if (filter_status && document.getElementById('filter_status_select').options[document.getElementById('filter_status_select').options.selectedIndex].value === 'pending') {
 						if (!doc.data().status) {
-							buildMapEntryRow(doc.id, sno, doc.data().map_number, doc.data().map_name, doc.data().location, doc.data().circuit_distance, doc.data().status, doc.data().timestamp, doc.data().approved_by);
+							buildMapEntryRow(doc.id, sno, doc.data().map_number, doc.data().map_name, doc.data().location, doc.data().circuit_distance, doc.data().status, doc.data().timestamp, doc.data().approved_by, doc.data().area_pin);
 						}
 					}
 					else {
-						buildMapEntryRow(doc.id, sno, doc.data().map_number, doc.data().map_name, doc.data().location, doc.data().circuit_distance, doc.data().status, doc.data().timestamp, doc.data().approved_by);
+						buildMapEntryRow(doc.id, sno, doc.data().map_number, doc.data().map_name, doc.data().location, doc.data().circuit_distance, doc.data().status, doc.data().timestamp, doc.data().approved_by, doc.data().area_pin);
 					}
 				});
 				/*
@@ -606,9 +654,9 @@ function handleRealTimeUpdates() {
 				var pending_count = 0;
 	
 				*/
-				current_csv = '#,Map Number,Map Name,Location,Circuit Distance,Status,Date Created';
+				current_csv = '#,Map Number,Map Link,Map Name,Location,Pin Code,Circuit Distance,Status,Date Created';
 				querySnapshot.forEach(doc => {
-					current_csv += '\n"' + sno + '","' + doc.data().map_number + '","' + doc.data().map_name + '","' + doc.data().location + '","' + doc.data().circuit_distance + ' Kilometers","' + doc.data().status + '","' + generateDateString(doc.data().timestamp) + ' at ' + generateTimeString(doc.data().timestamp) + '"';
+					current_csv += '\n"' + sno + '","' + doc.data().map_number + '","' + 'https://github.com/siddhantvinchurkar/mapbase-dataset/blob/master/' + doc.data().map_number.substring(0, doc.data().map_number.lastIndexOf('-')) + '/' + doc.data().map_number + '.json' + '","' + doc.data().map_name + '","' + doc.data().location + '","' + doc.data().area_pin + '","' + doc.data().circuit_distance + ' Kilometers","' + doc.data().status + '","' + generateDateString(doc.data().timestamp) + ' at ' + generateTimeString(doc.data().timestamp) + '"';
 					/*
 
 					// This code has been deprecated in favour of a better method.
@@ -618,16 +666,16 @@ function handleRealTimeUpdates() {
 					sno++;
 					if (filter_status && document.getElementById('filter_status_select').options[document.getElementById('filter_status_select').options.selectedIndex].value === 'approved') {
 						if (doc.data().status) {
-							buildMapEntryRow(doc.id, sno, doc.data().map_number, doc.data().map_name, doc.data().location, doc.data().circuit_distance, doc.data().status, doc.data().timestamp, doc.data().approved_by);
+							buildMapEntryRow(doc.id, sno, doc.data().map_number, doc.data().map_name, doc.data().location, doc.data().circuit_distance, doc.data().status, doc.data().timestamp, doc.data().approved_by, doc.data().area_pin);
 						}
 					}
 					else if (filter_status && document.getElementById('filter_status_select').options[document.getElementById('filter_status_select').options.selectedIndex].value === 'pending') {
 						if (!doc.data().status) {
-							buildMapEntryRow(doc.id, sno, doc.data().map_number, doc.data().map_name, doc.data().location, doc.data().circuit_distance, doc.data().status, doc.data().timestamp, doc.data().approved_by);
+							buildMapEntryRow(doc.id, sno, doc.data().map_number, doc.data().map_name, doc.data().location, doc.data().circuit_distance, doc.data().status, doc.data().timestamp, doc.data().approved_by, doc.data().area_pin);
 						}
 					}
 					else {
-						buildMapEntryRow(doc.id, sno, doc.data().map_number, doc.data().map_name, doc.data().location, doc.data().circuit_distance, doc.data().status, doc.data().timestamp, doc.data().approved_by);
+						buildMapEntryRow(doc.id, sno, doc.data().map_number, doc.data().map_name, doc.data().location, doc.data().circuit_distance, doc.data().status, doc.data().timestamp, doc.data().approved_by, doc.data().area_pin);
 					}
 				});
 				/*
@@ -653,9 +701,9 @@ function handleRealTimeUpdates() {
 				var pending_count = 0;
 	
 				*/
-				current_csv = '#,Map Number,Map Name,Location,Circuit Distance,Status,Date Created';
+				current_csv = '#,Map Number,Map Link,Map Name,Location,Pin Code,Circuit Distance,Status,Date Created';
 				querySnapshot.forEach(doc => {
-					current_csv += '\n"' + sno + '","' + doc.data().map_number + '","' + doc.data().map_name + '","' + doc.data().location + '","' + doc.data().circuit_distance + ' Kilometers","' + doc.data().status + '","' + generateDateString(doc.data().timestamp) + ' at ' + generateTimeString(doc.data().timestamp) + '"';
+					current_csv += '\n"' + sno + '","' + doc.data().map_number + '","' + 'https://github.com/siddhantvinchurkar/mapbase-dataset/blob/master/' + doc.data().map_number.substring(0, doc.data().map_number.lastIndexOf('-')) + '/' + doc.data().map_number + '.json' + '","' + doc.data().map_name + '","' + doc.data().location + '","' + doc.data().area_pin + '","' + doc.data().circuit_distance + ' Kilometers","' + doc.data().status + '","' + generateDateString(doc.data().timestamp) + ' at ' + generateTimeString(doc.data().timestamp) + '"';
 					/*
 
 					// This code has been deprecated in favour of a better method.
@@ -665,16 +713,16 @@ function handleRealTimeUpdates() {
 					sno++;
 					if (filter_status && document.getElementById('filter_status_select').options[document.getElementById('filter_status_select').options.selectedIndex].value === 'approved') {
 						if (doc.data().status) {
-							buildMapEntryRow(doc.id, sno, doc.data().map_number, doc.data().map_name, doc.data().location, doc.data().circuit_distance, doc.data().status, doc.data().timestamp, doc.data().approved_by);
+							buildMapEntryRow(doc.id, sno, doc.data().map_number, doc.data().map_name, doc.data().location, doc.data().circuit_distance, doc.data().status, doc.data().timestamp, doc.data().approved_by, doc.data().area_pin);
 						}
 					}
 					else if (filter_status && document.getElementById('filter_status_select').options[document.getElementById('filter_status_select').options.selectedIndex].value === 'pending') {
 						if (!doc.data().status) {
-							buildMapEntryRow(doc.id, sno, doc.data().map_number, doc.data().map_name, doc.data().location, doc.data().circuit_distance, doc.data().status, doc.data().timestamp, doc.data().approved_by);
+							buildMapEntryRow(doc.id, sno, doc.data().map_number, doc.data().map_name, doc.data().location, doc.data().circuit_distance, doc.data().status, doc.data().timestamp, doc.data().approved_by, doc.data().area_pin);
 						}
 					}
 					else {
-						buildMapEntryRow(doc.id, sno, doc.data().map_number, doc.data().map_name, doc.data().location, doc.data().circuit_distance, doc.data().status, doc.data().timestamp, doc.data().approved_by);
+						buildMapEntryRow(doc.id, sno, doc.data().map_number, doc.data().map_name, doc.data().location, doc.data().circuit_distance, doc.data().status, doc.data().timestamp, doc.data().approved_by, doc.data().area_pin);
 					}
 				});
 				/*
@@ -700,9 +748,9 @@ function handleRealTimeUpdates() {
 				var pending_count = 0;
 	
 				*/
-				current_csv = '#,Map Number,Map Name,Location,Circuit Distance,Status,Date Created';
+				current_csv = '#,Map Number,Map Link,Map Name,Location,Pin Code,Circuit Distance,Status,Date Created';
 				querySnapshot.forEach(doc => {
-					current_csv += '\n"' + sno + '","' + doc.data().map_number + '","' + doc.data().map_name + '","' + doc.data().location + '","' + doc.data().circuit_distance + ' Kilometers","' + doc.data().status + '","' + generateDateString(doc.data().timestamp) + ' at ' + generateTimeString(doc.data().timestamp) + '"';
+					current_csv += '\n"' + sno + '","' + doc.data().map_number + '","' + 'https://github.com/siddhantvinchurkar/mapbase-dataset/blob/master/' + doc.data().map_number.substring(0, doc.data().map_number.lastIndexOf('-')) + '/' + doc.data().map_number + '.json' + '","' + doc.data().map_name + '","' + doc.data().location + '","' + doc.data().area_pin + '","' + doc.data().circuit_distance + ' Kilometers","' + doc.data().status + '","' + generateDateString(doc.data().timestamp) + ' at ' + generateTimeString(doc.data().timestamp) + '"';
 					/*
 
 					// This code has been deprecated in favour of a better method.
@@ -712,16 +760,16 @@ function handleRealTimeUpdates() {
 					sno++;
 					if (filter_status && document.getElementById('filter_status_select').options[document.getElementById('filter_status_select').options.selectedIndex].value === 'approved') {
 						if (doc.data().status) {
-							buildMapEntryRow(doc.id, sno, doc.data().map_number, doc.data().map_name, doc.data().location, doc.data().circuit_distance, doc.data().status, doc.data().timestamp, doc.data().approved_by);
+							buildMapEntryRow(doc.id, sno, doc.data().map_number, doc.data().map_name, doc.data().location, doc.data().circuit_distance, doc.data().status, doc.data().timestamp, doc.data().approved_by, doc.data().area_pin);
 						}
 					}
 					else if (filter_status && document.getElementById('filter_status_select').options[document.getElementById('filter_status_select').options.selectedIndex].value === 'pending') {
 						if (!doc.data().status) {
-							buildMapEntryRow(doc.id, sno, doc.data().map_number, doc.data().map_name, doc.data().location, doc.data().circuit_distance, doc.data().status, doc.data().timestamp, doc.data().approved_by);
+							buildMapEntryRow(doc.id, sno, doc.data().map_number, doc.data().map_name, doc.data().location, doc.data().circuit_distance, doc.data().status, doc.data().timestamp, doc.data().approved_by, doc.data().area_pin);
 						}
 					}
 					else {
-						buildMapEntryRow(doc.id, sno, doc.data().map_number, doc.data().map_name, doc.data().location, doc.data().circuit_distance, doc.data().status, doc.data().timestamp, doc.data().approved_by);
+						buildMapEntryRow(doc.id, sno, doc.data().map_number, doc.data().map_name, doc.data().location, doc.data().circuit_distance, doc.data().status, doc.data().timestamp, doc.data().approved_by, doc.data().area_pin);
 					}
 				});
 				/*
@@ -756,9 +804,9 @@ function handleRealTimeUpdates() {
 				var pending_count = 0;
 	
 				*/
-			current_csv = '#,Map Number,Map Name,Location,Circuit Distance,Status,Date Created';
+			current_csv = '#,Map Number,Map Link,Map Name,Location,Pin Code,Circuit Distance,Status,Date Created';
 			querySnapshot.forEach(doc => {
-				current_csv += '\n"' + sno + '","' + doc.data().map_number + '","' + doc.data().map_name + '","' + doc.data().location + '","' + doc.data().circuit_distance + ' Kilometers","' + doc.data().status + '","' + generateDateString(doc.data().timestamp) + ' at ' + generateTimeString(doc.data().timestamp) + '"';
+				current_csv += '\n"' + sno + '","' + doc.data().map_number + '","' + 'https://github.com/siddhantvinchurkar/mapbase-dataset/blob/master/' + doc.data().map_number.substring(0, doc.data().map_number.lastIndexOf('-')) + '/' + doc.data().map_number + '.json' + '","' + doc.data().map_name + '","' + doc.data().location + '","' + doc.data().area_pin + '","' + doc.data().circuit_distance + ' Kilometers","' + doc.data().status + '","' + generateDateString(doc.data().timestamp) + ' at ' + generateTimeString(doc.data().timestamp) + '"';
 				/*
 
 				// This code has been deprecated in favour of a better method.
@@ -768,16 +816,16 @@ function handleRealTimeUpdates() {
 				sno++;
 				if (filter_status && document.getElementById('filter_status_select').options[document.getElementById('filter_status_select').options.selectedIndex].value === 'approved') {
 					if (doc.data().status) {
-						buildMapEntryRow(doc.id, sno, doc.data().map_number, doc.data().map_name, doc.data().location, doc.data().circuit_distance, doc.data().status, doc.data().timestamp, doc.data().approved_by);
+						buildMapEntryRow(doc.id, sno, doc.data().map_number, doc.data().map_name, doc.data().location, doc.data().circuit_distance, doc.data().status, doc.data().timestamp, doc.data().approved_by, doc.data().area_pin);
 					}
 				}
 				else if (filter_status && document.getElementById('filter_status_select').options[document.getElementById('filter_status_select').options.selectedIndex].value === 'pending') {
 					if (!doc.data().status) {
-						buildMapEntryRow(doc.id, sno, doc.data().map_number, doc.data().map_name, doc.data().location, doc.data().circuit_distance, doc.data().status, doc.data().timestamp, doc.data().approved_by);
+						buildMapEntryRow(doc.id, sno, doc.data().map_number, doc.data().map_name, doc.data().location, doc.data().circuit_distance, doc.data().status, doc.data().timestamp, doc.data().approved_by, doc.data().area_pin);
 					}
 				}
 				else {
-					buildMapEntryRow(doc.id, sno, doc.data().map_number, doc.data().map_name, doc.data().location, doc.data().circuit_distance, doc.data().status, doc.data().timestamp, doc.data().approved_by);
+					buildMapEntryRow(doc.id, sno, doc.data().map_number, doc.data().map_name, doc.data().location, doc.data().circuit_distance, doc.data().status, doc.data().timestamp, doc.data().approved_by, doc.data().area_pin);
 				}
 			});
 			/*
@@ -1001,6 +1049,7 @@ window.onload = function () {
 			autoCompleteList[doc.data().map_number] = null;
 			autoCompleteList[doc.data().map_name] = null;
 			autoCompleteList[doc.data().location] = null;
+			autoCompleteList[doc.data().area_pin] = null;
 		});
 		// Initialize user interface
 		initializeUI();
@@ -1049,6 +1098,7 @@ window.onload = function () {
 	setInterval(function () { filter_map_number = document.getElementById('filter_map_number').value; }, 100);
 	setInterval(function () { filter_map_name = document.getElementById('filter_map_name').value; }, 100);
 	setInterval(function () { filter_location = document.getElementById('filter_location').value; }, 100);
+	setInterval(function () { filter_area_pin = document.getElementById('filter_area_pin').value; }, 100);
 	document.getElementById('filter_circuit_distance').onclick = function () {
 		if (!document.getElementById('filter_circuit_distance').checked) {
 			document.getElementById('filter_circuit_distance_select').disabled = true;
